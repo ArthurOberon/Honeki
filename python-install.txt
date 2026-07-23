@@ -1,0 +1,4 @@
+source .venv/bin/activate.fish
+pip install maturin
+maturin develop
+pip install pyside6

@@ -1,3 +1,12 @@
 /target
 
 data/history.json
+
+
+.venv
+.venv/
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd

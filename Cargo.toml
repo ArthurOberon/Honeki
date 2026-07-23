@@ -3,9 +3,13 @@ name = "software-app"
 version = "0.1.0"
 edition = "2024"
 
+[lib]
+name = "anki_engine"
+crate-type = ["cdylib", "rlib"]
+
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 chrono = { version = "0.4", features = ["serde"] }
 rand = "0.8"
-ctrlc = "3.4"
+pyo3 = { version = "0.22", features = ["extension-module"] }
