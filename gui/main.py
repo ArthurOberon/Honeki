@@ -10,9 +10,11 @@ class MainWindow(QMainWindow):
         self.resize(400, 200)
 
         engine_status = anki_engine.status()
+        engine = anki_engine.Engine()
 
         layout = QVBoxLayout()
-        label = QLabel(f"Engine Status: {engine_status}")
+        label = QLabel(f"Engine Message: {engine.test}")
+        # label = QLabel(f"Engine Status: {engine_status}")
         layout.addWidget(label)
 
         container = QWidget()

@@ -1,18 +1,8 @@
 use std::{fs, process};
-// use std::sync::{Arc, Mutex}
 
 mod engine;
 use crate::engine::deck::Deck;
 use crate::engine::session::Session;
-
-// fn ctrl_c_handler(deck: &Deck) {
-
-
-// 	ctrlc::set_handler(move ||{
-
-
-// 	});
-// }
 
 fn main()
 {
