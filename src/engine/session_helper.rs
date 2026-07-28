@@ -75,16 +75,16 @@ impl Default for SessionConfig {
 impl SessionConfig {
 
 	pub fn load_or_default() -> Self {
-		let json = match read_to_string("/config/config.json") {
+		let json = match read_to_string("config/config.json") {
 			Ok(content) => content,
 			Err(_) => {
-				println!("Caution : File '/config/config.json' does not exist. Use the default configuration.");
+				println!("Caution : File 'config/config.json' does not exist. Use the default configuration.");
 				return Self::default();
 			}
 		};
 
 		serde_json::from_str(&json).unwrap_or_else(|err| {
-			eprintln!("Caution : File '/config/config.json' as syntax error : ({err}). Use the default configuration.");
+			eprintln!("Caution : File 'config/config.json' as syntax error : ({err}). Use the default configuration.");
 			return Self::default();
 		})
 	}

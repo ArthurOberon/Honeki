@@ -10,14 +10,14 @@ run:
 # use maturin develop when rust src/ has change
 # or when you need to build rust src
 build:
-	{{ maturin }} develop
+	PYO3_USE_ABI3_FORWARD_COMPATIBILITY=1 {{ maturin }} develop
 
 dev: build run
 
 setup:
 	python3 -m venv {{ venv }}
 	{{ venv }}/bin/pip install maturin pyside6
-	{{ maturin }} develop
+	PYO3_USE_ABI3_FORWARD_COMPATIBILITY=1 {{ maturin }} develop
 
 clean:
 	cargo clean
