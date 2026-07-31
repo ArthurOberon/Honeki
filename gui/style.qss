@@ -1,0 +1,130 @@
+#title {
+	font-size: 22px;
+	font-weight: bold;
+
+	padding: 100px 30px 20px, 30px;
+}
+
+#label_new {
+	font-size: 18px;
+	font-weight: bold;
+	color: #2980b9;
+}
+
+#label_error {
+	font-size: 18px;
+	font-weight: bold;
+	color: #e74c3c;
+}
+
+#label_review {
+	font-size: 18px;
+	font-weight: bold;
+	color: #27ae60;
+}
+
+#btn_start {
+	background-color: #29aa34;
+	color: white;
+	font-size: 20px;
+
+	width: 450px;
+	height: 45px;
+}
+
+#btn_back {
+	width: 60px;
+}
+
+#label_front {
+	font-size: 24px;
+	font-weight: bold;
+	color: #333;
+}
+
+#label_back {
+	font-size: 24px;
+	color: #444;
+}
+
+#separator {
+	background-color: #777;
+	max-height: 2px;
+	min-width: 400px;
+	max-width: 400px;
+}
+
+
+QPushButton[top_btn="true"] {
+	background-color: #3E6259;
+	color: white;
+	height: 25px;
+	font-size: 13px;
+}
+
+#btn_show_answer {
+	background-color: #29aa7b;
+	color: white;
+
+	height: 50px;
+
+	/* min-width: 400px; */
+
+	border: 1px solid #333;
+	border-radius: 8px;
+
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#btn_show_answer:hover {
+	background-color: #2ebe89;
+}
+
+#btn_show_answer:pressed {
+	background-color: #24946b;
+}
+
+#btn_no {
+	background-color: #cc1111;
+	color: white;
+
+	height: 50px;
+
+	border: 1px solid #333;
+	border-radius: 8px;
+
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#btn_no:hover {
+	background-color: #d43434;
+	/* background-color: #bc1010; */
+}
+
+#btn_no:pressed {
+	background-color: #b41010;
+}
+
+#btn_yes {
+	background-color: #5ba864;
+	color: white;
+
+	height: 50px;
+
+	border: 1px solid #333;
+	border-radius: 8px;
+
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#btn_yes:hover {
+	background-color: rgb(109, 177, 111)
+	/* background-color: #5b975c; */
+}
+
+#btn_yes:pressed {
+	background-color: #558f56;
+}

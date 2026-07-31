@@ -1,7 +1,8 @@
 from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton, QStackedWidget, QHBoxLayout, QFrame
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QTimer
 
 import sys
+import os
 import anki_engine
 
 def hello():
@@ -15,22 +16,23 @@ class MenuWindow(QWidget):
 
         # Title
         title = QLabel("Menu - Main Page")
-        title.setStyleSheet("font-size: 22px; font-weight: bold;")
+        title.setObjectName("title")
+        # title.setStyleSheet("font-size: 22px; font-weight: bold;")
         title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop)
-        title.setContentsMargins(30, 100, 30, 20)
+        # title.setContentsMargins(30, 100, 30, 20)
 
         # Stat Info
         stat_layout = QHBoxLayout()
         stat_layout.setSpacing(30)
 
         self.label_new = QLabel("New: 20")
-        self.label_new.setStyleSheet("font-size: 18px; font-weight: bold; color: #2980b9;")
+        self.label_new.setObjectName("label_new")
 
         self.label_error = QLabel("Error: 7")
-        self.label_error.setStyleSheet("font-size: 18px; font-weight: bold; color: #e74c3c;")
+        self.label_error.setObjectName("label_error")
 
         self.label_review = QLabel("Review: 63")
-        self.label_review.setStyleSheet("font-size: 18px; font-weight: bold; color: #27ae60;")
+        self.label_review.setObjectName("label_review")
 
         stat_layout.addWidget(self.label_new)
         stat_layout.addWidget(self.label_error)
@@ -40,20 +42,16 @@ class MenuWindow(QWidget):
         stat_layout.setContentsMargins(0, 0, 0, 90)
 
 
-        # Bouton
         btn = QPushButton("Start Today Session")
-        btn.setFixedHeight(45)
-        btn.setFixedWidth(450)
-        btn.setStyleSheet("font-size: 16px; background-color: #3498db; color: white;")
+        btn.setObjectName("btn_start")
+
 
         btn.clicked.connect(go_to_review_callback)
 
 
-        # Layout Widgets
         layout.addWidget(title)
         layout.addLayout(stat_layout)
         layout.addWidget(btn, alignment=Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop)
-
 
         self.setLayout(layout)
 
@@ -64,45 +62,26 @@ class ReviewWindow(QWidget):
         layout = QVBoxLayout()
         # layout.setContentsMargins(0, 0, 0, 0)
 
-
         top_layout = QHBoxLayout()
-        top_layout.setSpacing(10)
+        top_layout.setSpacing(15)
 
         self.btn_back = QPushButton("<-")
-        self.btn_back.setFixedWidth(60)
+        self.btn_back.setObjectName("btn_back")
 
         self.btn_undo = QPushButton("UNDO")
         self.btn_redo = QPushButton("REDO")
 
-        # top_btn_style = """
-        #     QPushButton {
-        #     border: 2px solid #7c5cbf;
-        #     border-radius: 8px;
-        #     padding: 10px;
-        #     font-weight: bold;
-        #     color: #7c5cbf;
-        #     font-size: 14px;
-        #     }
-        # """
+        self.btn_back.setProperty("top_btn", True)
+        self.btn_undo.setProperty("top_btn", True)
+        self.btn_redo.setProperty("top_btn", True)
 
-        top_btn_style = """
-            QPushButton {
-				background-color: #7c5cbf;
-                color: white;
-				height: 25;
-                border: none;
-                border-radius: 6px;
-                padding: 6px 12px;
-                font-weight: normal;
-                font-size: 13px;
-            }
-        """
-
-        self.btn_back.setStyleSheet(top_btn_style)
-        self.btn_undo.setStyleSheet(top_btn_style)
-        self.btn_redo.setStyleSheet(top_btn_style)
+        self.btn_back.setShortcut("Escape")
+        self.btn_undo.setShortcut("Ctrl+Z")
+        self.btn_redo.setShortcut("Ctrl+Y")
 
         self.btn_back.clicked.connect(go_to_menu_callback)
+        # self.btn_undo.clicked.connect()
+        # self.btn_redo.clicked.connect()
 
 
         top_layout.addWidget(self.btn_back)
@@ -118,81 +97,75 @@ class ReviewWindow(QWidget):
 
         self.label_front = QLabel("FRONT")
         self.label_front.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.label_front.setStyleSheet("font-size: 24px; font-weight: bold; color: #333;")
+        self.label_front.setObjectName("label_front")
 
-        separator = QFrame()
-        separator.setFrameShape(QFrame.Shape.HLine)
-        separator.setStyleSheet("background-color: #777; max-height: 2px;")
-        separator.setFixedWidth(400)
+        self.separator = QFrame()
+        self.separator.setFrameShape(QFrame.Shape.HLine)
+        self.separator.setObjectName("separator")
 
         self.label_back = QLabel("BACK")
         self.label_back.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.label_back.setStyleSheet("font-size: 24px; color: #444;")
+        self.label_back.setObjectName("label_back")
 
         center_layout.addWidget(self.label_front)
-        center_layout.addWidget(separator, alignment=Qt.AlignmentFlag.AlignCenter)
+        center_layout.addWidget(self.separator, alignment=Qt.AlignmentFlag.AlignCenter)
         center_layout.addWidget(self.label_back, stretch=1)
 
         layout.addLayout(center_layout)
 
         layout.addStretch(1)
 
-
         bottom_layout = QHBoxLayout()
         bottom_layout.setSpacing(10)
 
+        self.btn_show_answer = QPushButton("Show Back")
+        self.btn_show_answer.setObjectName("btn_show_answer")
+
         self.btn_no = QPushButton("NO")
-        self.btn_no.setFixedHeight(50)
-        # self.btn_no.setStyleSheet("""
-        #     QPushButton {
-        #         border: 2px solid #e74c3c;
-        #         border-radius: 8px;
-        #         color: #e74c3c;
-        #         font-weight: bold;
-        #         font-size: 16px;
-        #     }
-        # """)
-        self.btn_no.setStyleSheet("""
-            QPushButton {
-				background-color: #e74c3c;
-				color: white;
-                border: none;
-                border-bottom-right-radius: 12	px;
-                font-size: 13px;
-                font-weight: normal;
-            }
-        """)
+        self.btn_no.setObjectName("btn_no")
 
         self.btn_yes = QPushButton("YES")
-        self.btn_yes.setFixedHeight(50)
-        # self.btn_yes.setStyleSheet("""
-        #     QPushButton {
-        #         border: 2px solid #3498db;
-        #         border-radius: 8px;
-        #         color: #3498db;
-        #         font-weight: bold;
-        #         font-size: 16px;
-        #     }
-        # """)
+        self.btn_yes.setObjectName("btn_yes")
 
-        self.btn_yes.setStyleSheet("""
-            QPushButton {
-				background-color: #3498db;
-				color: white;
-				border: none;
-				border-bottom-right-radius: 12	px;
-				font-size: 13px;
-				font-weight: normal;
-            }
-        """)
+        self.btn_show_answer.setShortcut("Space")
+        self.btn_no.setShortcut("1")
+        # self.btn_no.setShortcut("1")
+        self.btn_yes.setShortcut("2")
+        # self.btn_yes.setShortcut("1")
 
+        self.btn_show_answer.clicked.connect(self._on_show_answer_clicked)
+        self.btn_no.clicked.connect(self.load_card)
+        self.btn_yes.clicked.connect(self.load_card)
 
+        bottom_layout.addWidget(self.btn_show_answer)
         bottom_layout.addWidget(self.btn_no, stretch=1)
         bottom_layout.addWidget(self.btn_yes, stretch=1)
 
         layout.addLayout(bottom_layout)
 
         self.setLayout(layout)
+
+        self.set_answer_revealed(False)
+
+
+    def set_answer_revealed(self, revealed: bool):
+        self.label_front.setVisible(True)
+
+        self.separator.setVisible(revealed)
+        self.label_back.setVisible(revealed)
+        self.btn_no.setVisible(revealed)
+        self.btn_yes.setVisible(revealed)
+
+        self.btn_show_answer.setVisible(not revealed)
+
+    def _on_show_answer_clicked(self):
+        # if self.rust_backend:
+            # pass
+
+        self.set_answer_revealed(True)
+
+    def load_card(self):
+        self.set_answer_revealed(False)
 
 
 class MainWindow(QMainWindow):
@@ -235,9 +208,33 @@ class MainWindow(QMainWindow):
     def show_review(self):
         self.stacked_widget.setCurrentWidget(self.review_window)
 
+
+def load_stylesheet(app, qss_path):
+    with open(qss_path, "r") as file:
+        app.setStyleSheet(file.read())
+
 def main():
 
     app = QApplication(sys.argv)
+
+    file_css = os.path.abspath("gui/style.qss")
+
+    load_stylesheet(app, file_css)
+
+    last_mtime = [os.path.getmtime(file_css)]
+
+    def check_css_update():
+        try:
+            current_mtime = os.path.getmtime(file_css)
+            if current_mtime != last_mtime[0]:
+                last_mtime[0] = current_mtime
+                load_stylesheet(app, file_css)
+        except OSError:
+            pass
+
+    app.css_timer = QTimer()
+    app.css_timer.timeout.connect(check_css_update)
+    app.css_timer.start(500)
 
     window = MainWindow()
     window.show()
