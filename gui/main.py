@@ -9,7 +9,7 @@ def hello():
     print("Hello !")
 
 class MenuWindow(QWidget):
-    def __init__(self, go_to_review_callback):
+    def __init__(self, go_to_review_callback, engine):
         super().__init__()
 
         layout = QVBoxLayout()
@@ -17,13 +17,13 @@ class MenuWindow(QWidget):
         # Title
         title = QLabel("Menu - Main Page")
         title.setObjectName("title")
-        # title.setStyleSheet("font-size: 22px; font-weight: bold;")
         title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop)
-        # title.setContentsMargins(30, 100, 30, 20)
 
         # Stat Info
         stat_layout = QHBoxLayout()
         stat_layout.setSpacing(30)
+
+        # engine.getdata() # for label new, error review
 
         self.label_new = QLabel("New: 20")
         self.label_new.setObjectName("label_new")
@@ -44,10 +44,7 @@ class MenuWindow(QWidget):
 
         btn = QPushButton("Start Today Session")
         btn.setObjectName("btn_start")
-
-
         btn.clicked.connect(go_to_review_callback)
-
 
         layout.addWidget(title)
         layout.addLayout(stat_layout)
@@ -55,43 +52,42 @@ class MenuWindow(QWidget):
 
         self.setLayout(layout)
 
+
+
 class ReviewWindow(QWidget):
-    def __init__(self, go_to_menu_callback):
-        super().__init__()
 
-        layout = QVBoxLayout()
-        # layout.setContentsMargins(0, 0, 0, 0)
-
+    def init_top_layout(self, go_to_menu_callback):
         top_layout = QHBoxLayout()
         top_layout.setSpacing(15)
 
         self.btn_back = QPushButton("<-")
         self.btn_back.setObjectName("btn_back")
+        self.btn_back.setProperty("top_btn", True)
+        self.btn_back.setShortcut("Escape")
+        self.btn_back.clicked.connect(go_to_menu_callback)
+        self.btn_back.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         self.btn_undo = QPushButton("UNDO")
-        self.btn_redo = QPushButton("REDO")
-
-        self.btn_back.setProperty("top_btn", True)
         self.btn_undo.setProperty("top_btn", True)
-        self.btn_redo.setProperty("top_btn", True)
-
-        self.btn_back.setShortcut("Escape")
         self.btn_undo.setShortcut("Ctrl+Z")
+        self.btn_undo.clicked.connect(self.undo_card)
+        self.btn_undo.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+
+        self.btn_redo = QPushButton("REDO")
+        self.btn_redo.setProperty("top_btn", True)
         self.btn_redo.setShortcut("Ctrl+Y")
-
-        self.btn_back.clicked.connect(go_to_menu_callback)
-        # self.btn_undo.clicked.connect()
-        # self.btn_redo.clicked.connect()
-
+        self.btn_redo.clicked.connect(self.redo_card)
+        self.btn_redo.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         top_layout.addWidget(self.btn_back)
         top_layout.addWidget(self.btn_undo, stretch=1)
         top_layout.addWidget(self.btn_redo, stretch=1)
 
-        layout.addLayout(top_layout)
+        self.top_layout = top_layout
 
-        layout.addSpacing(25)
 
+
+    def init_center_layout(self):
         center_layout = QVBoxLayout()
         center_layout.setSpacing(15)
 
@@ -111,37 +107,59 @@ class ReviewWindow(QWidget):
         center_layout.addWidget(self.separator, alignment=Qt.AlignmentFlag.AlignCenter)
         center_layout.addWidget(self.label_back, stretch=1)
 
-        layout.addLayout(center_layout)
+        self.center_layout = center_layout
 
-        layout.addStretch(1)
-
+    def init_bottom_layout(self):
         bottom_layout = QHBoxLayout()
         bottom_layout.setSpacing(10)
 
         self.btn_show_answer = QPushButton("Show Back")
         self.btn_show_answer.setObjectName("btn_show_answer")
+        self.btn_show_answer.setShortcut("Space")
+        self.btn_show_answer.clicked.connect(self._on_show_answer_clicked)
+        self.btn_show_answer.setFocus()
 
         self.btn_no = QPushButton("NO")
         self.btn_no.setObjectName("btn_no")
+        self.btn_no.setToolTip("Keyboard: 1")
+        self.btn_no.setShortcut("1")
+        self.btn_no.setShortcut(Qt.Key.Key_1)
+        self.btn_no.clicked.connect(self.load_card)
+        self.btn_no.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         self.btn_yes = QPushButton("YES")
         self.btn_yes.setObjectName("btn_yes")
-
-        self.btn_show_answer.setShortcut("Space")
-        self.btn_no.setShortcut("1")
-        # self.btn_no.setShortcut("1")
+        self.btn_yes.setToolTip("Keyboard: 2")
         self.btn_yes.setShortcut("2")
-        # self.btn_yes.setShortcut("1")
-
-        self.btn_show_answer.clicked.connect(self._on_show_answer_clicked)
-        self.btn_no.clicked.connect(self.load_card)
+        self.btn_yes.setShortcut(Qt.Key.Key_2)
         self.btn_yes.clicked.connect(self.load_card)
+        self.btn_yes.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         bottom_layout.addWidget(self.btn_show_answer)
         bottom_layout.addWidget(self.btn_no, stretch=1)
         bottom_layout.addWidget(self.btn_yes, stretch=1)
 
-        layout.addLayout(bottom_layout)
+        self.bottom_layout = bottom_layout
+
+
+    def __init__(self, go_to_menu_callback, engine):
+        super().__init__()
+
+        layout = QVBoxLayout()
+        # layout.setContentsMargins(0, 0, 0, 0)
+
+        self.init_top_layout(go_to_menu_callback)
+        layout.addLayout(self.top_layout)
+
+        layout.addSpacing(25)
+
+        self.init_center_layout()
+        layout.addLayout(self.center_layout)
+
+        layout.addStretch(1)
+
+        self.init_bottom_layout()
+        layout.addLayout(self.bottom_layout)
 
         self.setLayout(layout)
 
@@ -159,13 +177,21 @@ class ReviewWindow(QWidget):
         self.btn_show_answer.setVisible(not revealed)
 
     def _on_show_answer_clicked(self):
-        # if self.rust_backend:
-            # pass
-
         self.set_answer_revealed(True)
 
     def load_card(self):
         self.set_answer_revealed(False)
+
+    def undo_card(self):
+        self.set_answer_revealed(False)
+
+    def redo_card(self):
+        self.set_answer_revealed(False)
+
+
+    def load_review_one_card_window(self, card):
+        self.label_front.setText(" front")
+        self.label_back.setText(" back")
 
 
 class MainWindow(QMainWindow):
@@ -188,13 +214,15 @@ class MainWindow(QMainWindow):
         # container.setLayout(layout)
         # self.setCentralWidget(container)
 
+        self.engine = anki_engine.Engine()
+
         # Create stacked widget (to stack window/page)
         self.stacked_widget = QStackedWidget()
         self.setCentralWidget(self.stacked_widget)
 
         # Create Instance of each window/page
-        self.menu_window = MenuWindow(go_to_review_callback=self.show_review)
-        self.review_window = ReviewWindow(go_to_menu_callback=self.show_menu)
+        self.menu_window = MenuWindow(go_to_review_callback=self.show_review, engine=self.engine)
+        self.review_window = ReviewWindow(go_to_menu_callback=self.show_menu, engine=self.engine)
 
         # Add page into the stacked_widget
         self.stacked_widget.addWidget(self.menu_window)
@@ -206,8 +234,12 @@ class MainWindow(QMainWindow):
         self.stacked_widget.setCurrentWidget(self.menu_window)
 
     def show_review(self):
-        self.stacked_widget.setCurrentWidget(self.review_window)
 
+        if True: # self.engine.is_session_empty() # for loop on session until no card
+            self.review_window.load_review_one_card_window(self.c)
+            self.review_window.set_answer_revealed(False)
+            self.stacked_widget.setCurrentWidget(self.review_window)
+            self.c += 1
 
 def load_stylesheet(app, qss_path):
     with open(qss_path, "r") as file:
