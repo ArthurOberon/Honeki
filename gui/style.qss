@@ -5,6 +5,14 @@
 	padding: 100px 30px 20px, 30px;
 }
 
+#title_no_review {
+	font-size: 26px;
+	font-weight: bold;
+
+	padding: 20px 30px 20px, 30px;
+	/* background-color: #2980b9; */
+}
+
 #label_new {
 	font-size: 18px;
 	font-weight: bold;
@@ -23,6 +31,13 @@
 	color: #27ae60;
 }
 
+/* 
+#btn_setting {
+	min-width: 10px;
+	min-height: 10px
+;}
+ */
+
 #btn_start {
 	background-color: #29aa34;
 	color: white;
@@ -34,6 +49,12 @@
 
 #btn_back {
 	width: 60px;
+}
+
+#btn_back_no_review {
+	width: 60px;
+
+	/* background-color: #24946b; */
 }
 
 #label_front {

@@ -1,0 +1,164 @@
+from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget, QPushButton, QHBoxLayout, QFrame
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QShortcut, QKeySequence
+from functools import partial
+
+class ReviewWindow(QWidget):
+	
+    def __init__(self, go_to_menu_callback, engine):
+        super().__init__()
+
+        self.engine = engine
+
+        layout = QVBoxLayout()
+        # layout.setContentsMargins(0, 0, 0, 0)
+
+        self.init_top_layout(go_to_menu_callback)
+        layout.addLayout(self.top_layout)
+
+        layout.addSpacing(25)
+
+        self.init_center_layout()
+        layout.addLayout(self.center_layout)
+
+        layout.addStretch(1)
+
+        self.init_bottom_layout()
+        layout.addLayout(self.bottom_layout)
+
+        self.setLayout(layout)
+
+        self.set_answer_revealed(False)
+
+
+    def init_top_layout(self, go_to_menu_callback):
+        top_layout = QHBoxLayout()
+        top_layout.setSpacing(15)
+
+        self.btn_back = QPushButton("<-")
+        self.btn_back.setObjectName("btn_back")
+        self.btn_back.setProperty("top_btn", True)
+        self.btn_back.setShortcut("Escape")
+        self.btn_back.clicked.connect(go_to_menu_callback)
+        self.btn_back.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+
+        self.btn_undo = QPushButton("UNDO")
+        self.btn_undo.setProperty("top_btn", True)
+        self.btn_undo.setShortcut("Ctrl+Z")
+        self.btn_undo.clicked.connect(self.undo_card)
+        self.btn_undo.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+
+        self.btn_redo = QPushButton("REDO")
+        self.btn_redo.setProperty("top_btn", True)
+        self.btn_redo.setShortcut("Ctrl+Y")
+        self.btn_redo.clicked.connect(self.redo_card)
+        self.btn_redo.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+
+        top_layout.addWidget(self.btn_back)
+        top_layout.addWidget(self.btn_undo, stretch=1)
+        top_layout.addWidget(self.btn_redo, stretch=1)
+
+        self.top_layout = top_layout
+
+
+    def init_center_layout(self):
+        center_layout = QVBoxLayout()
+        center_layout.setSpacing(15)
+
+        self.label_front = QLabel("FRONT")
+        self.label_front.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_front.setObjectName("label_front")
+
+        self.separator = QFrame()
+        self.separator.setFrameShape(QFrame.Shape.HLine)
+        self.separator.setObjectName("separator")
+
+        self.label_back = QLabel("BACK")
+        self.label_back.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_back.setObjectName("label_back")
+
+        center_layout.addWidget(self.label_front)
+        center_layout.addWidget(self.separator, alignment=Qt.AlignmentFlag.AlignCenter)
+        center_layout.addWidget(self.label_back, stretch=1)
+
+        self.center_layout = center_layout
+
+
+    def init_bottom_layout(self):
+        bottom_layout = QHBoxLayout()
+        bottom_layout.setSpacing(10)
+
+        self.btn_show_answer = QPushButton("Show Back")
+        self.btn_show_answer.setObjectName("btn_show_answer")
+        self.btn_show_answer.setShortcut("Space")
+        self.btn_show_answer.clicked.connect(self._on_show_answer_clicked)
+        self.btn_show_answer.setFocus()
+
+        self.btn_no = QPushButton("NO")
+        self.btn_no.setObjectName("btn_no")
+        self.btn_no.setToolTip("Keyboard: 1")
+        self.btn_no.setShortcut(Qt.Key.Key_1)
+        self.btn_no.clicked.connect(partial(self.answer, False))
+        self.btn_no.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+
+        self.btn_yes = QPushButton("YES")
+        self.btn_yes.setObjectName("btn_yes")
+        self.btn_yes.setToolTip("Keyboard: 2")
+        self.btn_yes.clicked.connect(partial(self.answer, True))
+        self.btn_yes.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+
+        self.shortcut_btn_yes = QShortcut(QKeySequence(Qt.Key.Key_2), self.btn_yes)
+        self.shortcut_btn_yes.activated.connect(self.btn_yes.animateClick)
+
+        bottom_layout.addWidget(self.btn_show_answer)
+        bottom_layout.addWidget(self.btn_no, stretch=1)
+        bottom_layout.addWidget(self.btn_yes, stretch=1)
+
+        self.bottom_layout = bottom_layout
+
+
+	# ====================================================================================
+
+
+    def set_answer_revealed(self, revealed: bool):
+        self.label_front.setVisible(True)
+
+        self.separator.setVisible(revealed)
+        self.label_back.setVisible(revealed)
+        self.btn_no.setVisible(revealed)
+        self.btn_yes.setVisible(revealed)
+
+        self.btn_show_answer.setVisible(not revealed)
+
+
+    def _on_show_answer_clicked(self):
+        self.set_answer_revealed(True)
+
+
+    def undo_card(self):
+        # self.engine.undo()
+        # popup on screen
+        self.set_answer_revealed(False)
+
+
+    def redo_card(self):
+        # self.engine.redo()
+        # popup on screen
+        self.set_answer_revealed(False)
+
+
+    def answer(self, answer):
+        # self.engine.answser(self.card.id, answer)
+
+        self.load_one_card_to_review_on_window(answer)
+
+
+    def load_one_card_to_review_on_window(self, c):
+        # self.card = self.engine.get_next_card()
+        self.label_front.setText(f"front {c}")
+        self.label_back.setText(f"back {c}")
+        self.set_answer_revealed(False)
+
+        # timer = self.engine.get_next_good_interval()
+        timer = "40 mo"
+        self.btn_yes.setText(f"YES {timer}")
