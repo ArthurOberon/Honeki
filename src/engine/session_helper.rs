@@ -4,7 +4,7 @@ use serde::{Serialize, Serializer, Deserialize, Deserializer};
 use chrono::{Duration};
 
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct SessionData {
 	pub new: usize,
 	pub learning: usize,

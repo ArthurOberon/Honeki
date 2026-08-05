@@ -6,13 +6,15 @@ class MenuWindow(QWidget):
     def __init__(self, go_to_review_callback, go_to_setting_callback, engine):
         super().__init__()
 
+        self.engine = engine
+
         layout = QVBoxLayout()
 
         # Setting button
         self.btn_setting = QPushButton()
         self.btn_setting.setObjectName("btn_setting")
 
-        # Icon made by Rahul Kaklotar 
+        # Icon made by Rahul Kaklotar
         self.btn_setting.setIcon(QIcon("gui/assets/setting_icon.png"))
         self.btn_setting.setIconSize(QSize(40, 40))
         self.btn_setting.setToolTip("Setting")
@@ -31,15 +33,13 @@ class MenuWindow(QWidget):
         stat_layout = QHBoxLayout()
         stat_layout.setSpacing(30)
 
-        # engine.getdata() # for label new, error review
-
-        self.label_new = QLabel("New: 20")
+        self.label_new = QLabel("New: 0")
         self.label_new.setObjectName("label_new")
 
-        self.label_error = QLabel("Error: 7")
+        self.label_error = QLabel("Error: 0")
         self.label_error.setObjectName("label_error")
 
-        self.label_review = QLabel("Review: 63")
+        self.label_review = QLabel("Review: 0")
         self.label_review.setObjectName("label_review")
 
         stat_layout.addWidget(self.label_new)
@@ -60,3 +60,10 @@ class MenuWindow(QWidget):
         layout.addWidget(btn, alignment=Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop)
 
         self.setLayout(layout)
+
+    def update_state_layout(self):
+        stats = self.engine.get_data() # for label new, error, review
+
+        self.label_new.setText(f"New: {stats.new}")
+        self.label_error.setText(f"Error: {stats.error}")
+        self.label_review.setText(f"Review: {stats.review}")

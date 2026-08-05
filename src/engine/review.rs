@@ -38,14 +38,18 @@ fn print_back_card(card: &Card)
     // println!("\tconnect_to:{:?}", card.connect_to);
 }
 
-fn get_user_choice(interval: f64, ease: f64) -> UserAction
-{
-	let next_good_interval = match interval {
+pub fn get_next_good_interval(interval: f64, ease: f64) -> f64 {
+	match interval {
 		0.0 => ONE_MINUTE,
 		ONE_MINUTE => TEN_MINUTES,
 		TEN_MINUTES => ONE_DAY,
 		_ =>  (interval * ease).round()
-	};
+	}
+}
+
+fn get_user_choice(interval: f64, ease: f64) -> UserAction
+{
+	let next_good_interval = get_next_good_interval(interval, ease); 
 
     println!("Did you remember :");
     println!("[1] : No (1m) | [2] : Yes ({}) | [Z] : Undo | [Y] : Redo | [Q] : Quit",

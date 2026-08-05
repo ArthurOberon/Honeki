@@ -61,7 +61,7 @@ pub enum CardType {
 // #[serde(rename_all = "FORMAT")] -> to say to serde that the json will be write in FORMAT format - and he need to convert for write into this structure
 // #[serde(rename = "NAME")] -> for ask serde to do only this with the var (to put on top of the var)
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct Card {
 	// Front

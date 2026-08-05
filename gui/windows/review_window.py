@@ -94,17 +94,17 @@ class ReviewWindow(QWidget):
         self.btn_show_answer.clicked.connect(self._on_show_answer_clicked)
         self.btn_show_answer.setFocus()
 
-        self.btn_no = QPushButton("NO")
+        self.btn_no = QPushButton("NO : <1m")
         self.btn_no.setObjectName("btn_no")
         self.btn_no.setToolTip("Keyboard: 1")
         self.btn_no.setShortcut(Qt.Key.Key_1)
-        self.btn_no.clicked.connect(partial(self.answer, False))
+        self.btn_no.clicked.connect(partial(self.answer_to_card, False))
         self.btn_no.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         self.btn_yes = QPushButton("YES")
         self.btn_yes.setObjectName("btn_yes")
         self.btn_yes.setToolTip("Keyboard: 2")
-        self.btn_yes.clicked.connect(partial(self.answer, True))
+        self.btn_yes.clicked.connect(partial(self.answer_to_card, True))
         self.btn_yes.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         self.shortcut_btn_yes = QShortcut(QKeySequence(Qt.Key.Key_2), self.btn_yes)
@@ -147,18 +147,23 @@ class ReviewWindow(QWidget):
         self.set_answer_revealed(False)
 
 
-    def answer(self, answer):
+    def answer_to_card(self, answer):
+        print("in: answer_to_card -> call : self.engine.answer")
         # self.engine.answser(self.card.id, answer)
 
-        self.load_one_card_to_review_on_window(answer)
+        print(f"Answer : {answer}")
+        print("in: answer_to_card -> call : load_one_card_to_review_on_window")
+
+        self.load_one_card_to_review_on_window()
 
 
-    def load_one_card_to_review_on_window(self, c):
-        # self.card = self.engine.get_next_card()
-        self.label_front.setText(f"front {c}")
-        self.label_back.setText(f"back {c}")
+    def load_one_card_to_review_on_window(self):
+        self.card = self.engine.get_next_card()
+        
+        self.label_front.setText(f"{self.card.name}")
+        self.label_back.setText(f"{self.card.picture}\n{self.card.placed_in}\n{self.card.connect_to}")
+
         self.set_answer_revealed(False)
 
-        # timer = self.engine.get_next_good_interval()
-        timer = "40 mo"
-        self.btn_yes.setText(f"YES {timer}")
+        timer = self.engine.get_string_formated_next_good_interval(self.card)
+        self.btn_yes.setText(f"YES : {timer}")

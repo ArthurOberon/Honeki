@@ -45,20 +45,17 @@ class MainWindow(QMainWindow):
         self.stacked_widget.addWidget(self.no_review_window)
         self.stacked_widget.addWidget(self.setting_window)
 
-        self.c = 0
-
         self.show_menu()
 
     def show_menu(self):
+        self.menu_window.update_state_layout()
         self.stacked_widget.setCurrentWidget(self.menu_window)
 
     def show_review(self):
 
-        if self.c <= 5: # self.engine.is_session_empty() # for loop on session until no card
-            # self.review_window.load_review_one_card_window()
-            self.review_window.load_one_card_to_review_on_window(self.c)
+        if self.engine.is_session_empty(): # for loop on session until no card
+            self.review_window.load_one_card_to_review_on_window()
             self.stacked_widget.setCurrentWidget(self.review_window)
-            self.c += 1
         else:
             self.stacked_widget.setCurrentWidget(self.no_review_window)
 

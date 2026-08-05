@@ -111,6 +111,10 @@ impl Session {
 		self.data = SessionData{ new: self.new.len(), learning: self.learning.len(), relearning: self.relearning.len(), review: self.review.len() };
 	}
 
+	pub fn is_empty(&mut self) -> bool {
+		!(self.new.is_empty() && self.learning.is_empty() && self.relearning.is_empty() && self.review.is_empty())
+	}
+
 }
 
 
@@ -244,7 +248,7 @@ impl Session {
 		}
 	}
 
-	fn next_card_id(&mut self, deck: &Deck) -> Option<usize>
+	pub fn next_card_id(&mut self, deck: &Deck) -> Option<usize>
 	{
 		// Get the index of the first element only if the due is now (now or past)
 		let learn_index = self.learning.first().is_some_and(|&idx| deck.cards[idx].is_due_now());
