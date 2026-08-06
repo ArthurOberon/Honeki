@@ -20,6 +20,7 @@ class MenuWindow(QWidget):
         self.btn_setting.setToolTip("Setting")
         self.btn_setting.clicked.connect(go_to_setting_callback)
         self.btn_setting.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        self.btn_setting.setShortcut("P")
 
         layout.addWidget(self.btn_setting, alignment=Qt.AlignmentFlag.AlignRight)
         layout.addSpacing(10)

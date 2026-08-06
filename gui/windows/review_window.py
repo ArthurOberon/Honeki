@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget, QPushButton, QHBoxLayout, QFrame
-from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget, QPushButton, QHBoxLayout, QFrame, QDialog
+from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QShortcut, QKeySequence
 from functools import partial
 
@@ -29,6 +29,12 @@ class ReviewWindow(QWidget):
         layout.addLayout(self.bottom_layout)
 
         self.setLayout(layout)
+
+
+        self.snackbar = QLabel("SNACKBAR")
+        self.snackbar.setObjectName("snackbar")
+        self.snackbar.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.ToolTip)
+        self.snackbar.move(0, 650)
 
         self.set_answer_revealed(False)
 
@@ -121,6 +127,11 @@ class ReviewWindow(QWidget):
 
 	# ====================================================================================
 
+    def show_snackbar(self, text):
+        self.snackbar.setText(text)
+        self.snackbar.show()
+        QTimer.singleShot(2000, self.snackbar.hide)
+
 
     def set_answer_revealed(self, revealed: bool):
         self.label_front.setVisible(True)
@@ -135,27 +146,22 @@ class ReviewWindow(QWidget):
 
     def _on_show_answer_clicked(self):
         self.set_answer_revealed(True)
-
-
+ 
     def on_quit_clicked(self):
         self.go_to_menu_callback()
 
     def on_undo_clicked(self):
         if not self.engine.undo():
-            # popup nothing to undo
-            print("Nothing to undo.")
+            self.show_snackbar("Nothing to undo.")
         else:
-            # popup on screen
-            print("Thing to undo.")
+            self.show_snackbar("Undo card.")
             self.load_one_card_to_review_on_window()
 
     def on_redo_clicked(self):
         if not self.engine.redo():
-            #popup nothing to redo
-            print("Nothing to redo")
+            self.show_snackbar("Nothing to redo.")
         else :
-            print("Thing to redo.")
-            # popup on screen
+            self.show_snackbar("Redo card.")
             self.load_one_card_to_review_on_window()
 
     def on_answer_clicked(self, answer):
