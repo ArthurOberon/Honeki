@@ -15,18 +15,6 @@ class MainWindow(QMainWindow):
         self.resize(1200, 800)
         # self.resize(800, 600)
 
-        # engine_status = anki_engine.status()
-        # engine = anki_engine.Engine()
-
-        # layout = QVBoxLayout()
-        # label = QLabel(f"Engine Message: {engine.test}")
-        # # label = QLabel(f"Engine Status: {engine_status}")
-        # layout.addWidget(label)
-
-        # container = QWidget()
-        # container.setLayout(layout)
-        # self.setCentralWidget(container)
-
         self.engine = anki_engine.Engine()
 
         # Create stacked widget (to stack window/page)
@@ -57,6 +45,7 @@ class MainWindow(QMainWindow):
             self.review_window.load_one_card_to_review_on_window()
             self.stacked_widget.setCurrentWidget(self.review_window)
         else:
+            self.engine.clear_history()
             self.stacked_widget.setCurrentWidget(self.no_review_window)
 
     def show_setting(self):

@@ -2,9 +2,10 @@ use std::fs::read_to_string;
 use chrono::NaiveDateTime;
 use serde::{Serialize, Deserialize};
 
-use crate::engine::card::{Card, CardType};
-
-use crate::engine::deck::secure_save_file_from_json;
+use crate::engine::{
+	card::{Card, CardType},
+	deck::secure_save_file_from_json,
+};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct CardSnapshot {

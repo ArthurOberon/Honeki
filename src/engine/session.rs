@@ -1,17 +1,15 @@
-use std::io::{self, Write};
 use chrono::{NaiveDateTime};
 use rand::seq::{SliceRandom};
 
-use crate::engine::card::CardType;
-use crate::engine::deck::Deck;
-use crate::engine::review::Choice;
-use crate::engine::review::UserAction;
-use crate::engine::review::review_one_card;
-use crate::engine::review::wait_enter_input;
-use crate::engine::session_helper::SessionConfig;
-use crate::engine::session_helper::SessionData;
-use crate::engine::history::CardSnapshot;
-use crate::engine::history::History;
+use crate::engine::{
+	deck::Deck,
+	card::CardType,
+	card::Choice,
+	session_data::SessionData,
+	config::SessionConfig,
+	history::CardSnapshot,
+	history::History,
+};
 
 #[derive(Debug)]
 pub struct Session {
@@ -175,6 +173,16 @@ impl Session {
 
 		self.update_data();
 
+		// println!("Save process...");
+		if let Err(err) = deck.save_to_json() {
+			eprintln!("Error during deck save process : {err}");
+		}
+
+		// println!("Save process...");
+		if let Err(err) = self.history.save_to_json() {
+			eprintln!("Error during history save process : {err}");
+		}
+
 		true
 	}
 	
@@ -219,6 +227,16 @@ impl Session {
 		}
 
 		self.update_data();
+
+		// println!("Save process...");
+		if let Err(err) = deck.save_to_json() {
+			eprintln!("Error during deck save process : {err}");
+		}
+
+		// println!("Save process...");
+		if let Err(err) = self.history.save_to_json() {
+			eprintln!("Error during history save process : {err}");
+		}
 
 		true
 	}
@@ -361,106 +379,106 @@ impl Session {
 
 	}
 
-	pub fn launch(&mut self, deck: &mut Deck) //-> bool
-	{
-		// to clear shell screen and reset the cursor
-		print!("\x1B[2J\x1B[H"); // \x1B: ESC, [2J: clear screen, [H: move cursor to top-left
-		io::stdout().flush().unwrap(); // Flush stdout buffer to execute this sequence immediately
+	// pub fn launch(&mut self, deck: &mut Deck) //-> bool
+	// {
+	// 	// to clear shell screen and reset the cursor
+	// 	print!("\x1B[2J\x1B[H"); // \x1B: ESC, [2J: clear screen, [H: move cursor to top-left
+	// 	io::stdout().flush().unwrap(); // Flush stdout buffer to execute this sequence immediately
 	
-		println!("Session.Config : {:#?}", self.config);
-		// println!("Session.new: {:#?}", self.new);
-		// println!("Session.learning: {:#?}", self.learning);
-		// println!("Session.relearning: {:#?}", self.relearning);
-		// println!("Session.review: {:#?}", self.review);
-		println!("Session.Data : {:#?}", self.data);
-		// println!("Session.History : {:#?}", self.history);
+	// 	println!("Session.Config : {:#?}", self.config);
+	// 	// println!("Session.new: {:#?}", self.new);
+	// 	// println!("Session.learning: {:#?}", self.learning);
+	// 	// println!("Session.relearning: {:#?}", self.relearning);
+	// 	// println!("Session.review: {:#?}", self.review);
+	// 	println!("Session.Data : {:#?}", self.data);
+	// 	// println!("Session.History : {:#?}", self.history);
 		
-		println!("Enter [Enter] to start your session of today.");
-		wait_enter_input();
+	// 	println!("Enter [Enter] to start your session of today.");
+	// 	wait_enter_input();
 
 
-		let len = self.data.total();
+	// 	let len = self.data.total();
 
-		if len == 0
-		{
-			println!("No card to review today. Or You're already reviewed all the card for today.");
-			return;
-		}
+	// 	if len == 0
+	// 	{
+	// 		println!("No card to review today. Or You're already reviewed all the card for today.");
+	// 		return;
+	// 	}
 
-		while let Some(card_id) = self.next_card_id(deck) {
-			// to clear shell screen and reset the cursor
-			print!("\x1B[2J\x1B[H"); // \x1B: ESC, [2J: clear screen, [H: move cursor to top-left
-			io::stdout().flush().unwrap(); // Flush stdout buffer to execute this sequence immediately
+	// 	while let Some(card_id) = self.next_card_id(deck) {
+	// 		// to clear shell screen and reset the cursor
+	// 		print!("\x1B[2J\x1B[H"); // \x1B: ESC, [2J: clear screen, [H: move cursor to top-left
+	// 		io::stdout().flush().unwrap(); // Flush stdout buffer to execute this sequence immediately
 
-			println!("--- Card {} ---", card_id + 1);
-			println!("--- {} - {} - {} ---", self.data.new, self.data.learning + self.data.relearning, self.data.review);
+	// 		println!("--- Card {} ---", card_id + 1);
+	// 		println!("--- {} - {} - {} ---", self.data.new, self.data.learning + self.data.relearning, self.data.review);
 
-			let current_card = &mut deck.cards[card_id];
+	// 		let current_card = &mut deck.cards[card_id];
 
-			let before_review_queue = current_card.r_type;
+	// 		let before_review_queue = current_card.r_type;
 
-			if let Some(action) = review_one_card(current_card, &mut self.history) {
-				match action {
-					UserAction::Undo => {
-						if !self.undo(deck) {
-							println!("Nothing to undo.");
-							wait_enter_input();
-						}
-					},
-					UserAction::Redo => {
-						if !self.redo(deck) {
-							println!("Nothing to redo.");
-							wait_enter_input();
-						}
-					},
-					UserAction::Quit => {
-						println!("Quit the session.");
-						break;
-					},
-					UserAction::Answer(_) => unreachable!(),
-				}
-			} else {
+	// 		if let Some(action) = review_one_card(current_card, &mut self.history) {
+	// 			match action {
+	// 				UserAction::Undo => {
+	// 					if !self.undo(deck) {
+	// 						println!("Nothing to undo.");
+	// 						wait_enter_input();
+	// 					}
+	// 				},
+	// 				UserAction::Redo => {
+	// 					if !self.redo(deck) {
+	// 						println!("Nothing to redo.");
+	// 						wait_enter_input();
+	// 					}
+	// 				},
+	// 				UserAction::Quit => {
+	// 					println!("Quit the session.");
+	// 					break;
+	// 				},
+	// 				UserAction::Answer(_) => unreachable!(),
+	// 			}
+	// 		} else {
 
-				self.remove_card_from_queue(card_id, before_review_queue);
+	// 			self.remove_card_from_queue(card_id, before_review_queue);
 
-				if before_review_queue == CardType::Manual && deck.new_card_review_today < self.config.number_new_by_day {
-					deck.new_card_review_today += 1;
-				}
+	// 			if before_review_queue == CardType::Manual && deck.new_card_review_today < self.config.number_new_by_day {
+	// 				deck.new_card_review_today += 1;
+	// 			}
 
-				// println!("Save process...");
-				if let Err(err) = deck.save_to_json() {
-					eprintln!("Error during deck save process : {err}");
-				}
+	// 			// println!("Save process...");
+	// 			if let Err(err) = deck.save_to_json() {
+	// 				eprintln!("Error during deck save process : {err}");
+	// 			}
 
-				// println!("Save process...");
-				if let Err(err) = self.history.save_to_json() {
-					eprintln!("Error during history save process : {err}");
-				}
+	// 			// println!("Save process...");
+	// 			if let Err(err) = self.history.save_to_json() {
+	// 				eprintln!("Error during history save process : {err}");
+	// 			}
 
-				let r_type = deck.cards[card_id].r_type;
-				let due = deck.cards[card_id].due.unwrap();
+	// 			let r_type = deck.cards[card_id].r_type;
+	// 			let due = deck.cards[card_id].due.unwrap();
 
-				if matches!(r_type, CardType::Learn | CardType::Relearn) {
-					self.requeue_card(deck, card_id, r_type, due);
-				}
+	// 			if matches!(r_type, CardType::Learn | CardType::Relearn) {
+	// 				self.requeue_card(deck, card_id, r_type, due);
+	// 			}
 
-				self.update_data();
+	// 			self.update_data();
 
-				// println!("Session : {:#?}", self);
+	// 			// println!("Session : {:#?}", self);
 
-				wait_enter_input();
-			}
+	// 			wait_enter_input();
+	// 		}
 
-		}
+	// 	}
 
-		// println!("Session : {:#?}", self);
-		if self.data.total() == 0 {
-			println!("Session end.");
-			println!("Congratulation for finishing your session day !");
-			if let Err(err) = self.history.clear_and_save() {
-					eprintln!("Error during history save process : {err}");
-				}
-		}
-    }
+	// 	// println!("Session : {:#?}", self);
+	// 	if self.data.total() == 0 {
+	// 		println!("Session end.");
+	// 		println!("Congratulation for finishing your session day !");
+	// 		if let Err(err) = self.history.clear_and_save() {
+	// 				eprintln!("Error during history save process : {err}");
+	// 			}
+	// 	}
+    // }
 	
 }

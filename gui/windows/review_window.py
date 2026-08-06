@@ -13,7 +13,9 @@ class ReviewWindow(QWidget):
         layout = QVBoxLayout()
         # layout.setContentsMargins(0, 0, 0, 0)
 
-        self.init_top_layout(go_to_menu_callback)
+        self.go_to_menu_callback = go_to_menu_callback
+
+        self.init_top_layout()
         layout.addLayout(self.top_layout)
 
         layout.addSpacing(25)
@@ -31,7 +33,7 @@ class ReviewWindow(QWidget):
         self.set_answer_revealed(False)
 
 
-    def init_top_layout(self, go_to_menu_callback):
+    def init_top_layout(self):
         top_layout = QHBoxLayout()
         top_layout.setSpacing(15)
 
@@ -39,7 +41,7 @@ class ReviewWindow(QWidget):
         self.btn_back.setObjectName("btn_back")
         self.btn_back.setProperty("top_btn", True)
         self.btn_back.setShortcut("Escape")
-        self.btn_back.clicked.connect(go_to_menu_callback)
+        self.btn_back.clicked.connect(self.on_quit_clicked)
         self.btn_back.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         self.btn_undo = QPushButton("UNDO")
@@ -134,6 +136,9 @@ class ReviewWindow(QWidget):
     def _on_show_answer_clicked(self):
         self.set_answer_revealed(True)
 
+
+    def on_quit_clicked(self):
+        self.go_to_menu_callback()
 
     def on_undo_clicked(self):
         if not self.engine.undo():

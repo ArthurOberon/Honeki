@@ -1,7 +1,12 @@
 use serde::{Serialize, Deserialize};
 use chrono::{Duration, Local, NaiveDateTime};
 
-use crate::engine::review::Choice;
+pub enum Choice {
+	Wrong,
+	Right,
+}
+
+// -------------------------------------------------------
 
 pub const ONE_MINUTE: f64 = 1.0 / 1440.0;
 pub const TEN_MINUTES: f64 = 10.0 / 1440.0;
@@ -14,6 +19,15 @@ fn format_round_num(num: f64) -> String {
 		format!("{:.0}", rounded)
 	} else {
 		format!("{:.1}", rounded)
+	}
+}
+
+pub fn get_next_good_interval(interval: f64, ease: f64) -> f64 {
+	match interval {
+		0.0 => ONE_MINUTE,
+		ONE_MINUTE => TEN_MINUTES,
+		TEN_MINUTES => ONE_DAY,
+		_ =>  (interval * ease).round()
 	}
 }
 
@@ -49,6 +63,8 @@ pub fn format_interval_verbose(days: f64) -> String {
 		}
 	}
 }
+
+// -------------------------------------------------------
 
 #[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq)]
 pub enum CardType {

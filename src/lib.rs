@@ -4,7 +4,16 @@ use std::{fs};
 use pyo3::{exceptions::PyFileNotFoundError, prelude::*};
 use chrono::{NaiveDateTime};
 
-use crate::engine::{deck::Deck, session::Session, session_helper::SessionData, card::Card, card::CardType, card::format_interval, review::Choice, review::get_next_good_interval};
+use crate::engine::{
+	deck::Deck,
+	session::Session,
+	session_data::SessionData,
+	card::Card,
+	// card::CardType,
+	card::format_interval,
+	card::Choice,
+	card::get_next_good_interval
+};
 
 mod engine;
 
@@ -20,7 +29,7 @@ pub struct CardView {
 
 	// Metadata
 	#[pyo3(get)] id: usize,
-	r_type: CardType,
+	// r_type: CardType,
 	#[pyo3(get)] interval: f64,
 	#[pyo3(get)] ease : f64,
     #[pyo3(get)] due: Option<NaiveDateTime>,
@@ -34,7 +43,7 @@ impl From<Card> for CardView {
 			placed_in: card.placed_in,
 			connect_to: card.connect_to,
 			id: card.id,
-			r_type: card.r_type,
+			// r_type: card.r_type,
 			interval: card.interval,
 			ease: card.ease,
 			due: card.due
@@ -138,18 +147,18 @@ impl Engine {
 		self.session.answer_card_review(&mut self.deck, card_id, choice);
 	}
 
-	pub fn undo(&mut self) -> bool {
-		let bool = self.session.undo(&mut self.deck);
-		self.session.update_data();
+	pub fn clear_history(&mut self) {
+		if let Err(err) = self.session.history.clear_and_save() {
+			eprintln!("Error during history save process : {err}");
+		}
+	}
 
-		bool
+	pub fn undo(&mut self) -> bool {
+		self.session.undo(&mut self.deck)
 	}
 
 	pub fn redo(&mut self) -> bool {
-		let bool = self.session.redo(&mut self.deck);
-		self.session.update_data();
-
-		bool
+		self.session.redo(&mut self.deck)
 	}
 }
 
