@@ -4,7 +4,7 @@ use std::{fs};
 use pyo3::{exceptions::PyFileNotFoundError, prelude::*};
 use chrono::{NaiveDateTime};
 
-use crate::engine::{deck::Deck, session::Session, session_helper::SessionData, card::Card, card::CardType, card::format_interval, review::get_next_good_interval};
+use crate::engine::{deck::Deck, session::Session, session_helper::SessionData, card::Card, card::CardType, card::format_interval, review::Choice, review::get_next_good_interval};
 
 mod engine;
 
@@ -129,6 +129,28 @@ impl Engine {
 		format_interval(get_next_good_interval(card.interval, card.ease))
 	}
 
+	pub fn answer_card_review(&mut self, card_id: usize, answer: bool) {
+		let choice = if answer {
+			Choice::Right
+		} else {
+			Choice::Wrong
+		};
+		self.session.answer_card_review(&mut self.deck, card_id, choice);
+	}
+
+	pub fn undo(&mut self) -> bool {
+		let bool = self.session.undo(&mut self.deck);
+		self.session.update_data();
+
+		bool
+	}
+
+	pub fn redo(&mut self) -> bool {
+		let bool = self.session.redo(&mut self.deck);
+		self.session.update_data();
+
+		bool
+	}
 }
 
 

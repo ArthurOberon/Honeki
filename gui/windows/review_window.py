@@ -45,13 +45,13 @@ class ReviewWindow(QWidget):
         self.btn_undo = QPushButton("UNDO")
         self.btn_undo.setProperty("top_btn", True)
         self.btn_undo.setShortcut("Ctrl+Z")
-        self.btn_undo.clicked.connect(self.undo_card)
+        self.btn_undo.clicked.connect(self.on_undo_clicked)
         self.btn_undo.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         self.btn_redo = QPushButton("REDO")
         self.btn_redo.setProperty("top_btn", True)
         self.btn_redo.setShortcut("Ctrl+Y")
-        self.btn_redo.clicked.connect(self.redo_card)
+        self.btn_redo.clicked.connect(self.on_redo_clicked)
         self.btn_redo.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         top_layout.addWidget(self.btn_back)
@@ -98,13 +98,13 @@ class ReviewWindow(QWidget):
         self.btn_no.setObjectName("btn_no")
         self.btn_no.setToolTip("Keyboard: 1")
         self.btn_no.setShortcut(Qt.Key.Key_1)
-        self.btn_no.clicked.connect(partial(self.answer_to_card, False))
+        self.btn_no.clicked.connect(partial(self.on_answer_clicked, False))
         self.btn_no.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         self.btn_yes = QPushButton("YES")
         self.btn_yes.setObjectName("btn_yes")
         self.btn_yes.setToolTip("Keyboard: 2")
-        self.btn_yes.clicked.connect(partial(self.answer_to_card, True))
+        self.btn_yes.clicked.connect(partial(self.on_answer_clicked, True))
         self.btn_yes.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         self.shortcut_btn_yes = QShortcut(QKeySequence(Qt.Key.Key_2), self.btn_yes)
@@ -135,25 +135,30 @@ class ReviewWindow(QWidget):
         self.set_answer_revealed(True)
 
 
-    def undo_card(self):
-        # self.engine.undo()
-        # popup on screen
-        self.set_answer_revealed(False)
+    def on_undo_clicked(self):
+        if not self.engine.undo():
+            # popup nothing to undo
+            print("Nothing to undo.")
+        else:
+            # popup on screen
+            print("Thing to undo.")
+            self.load_one_card_to_review_on_window()
 
+    def on_redo_clicked(self):
+        if not self.engine.redo():
+            #popup nothing to redo
+            print("Nothing to redo")
+        else :
+            print("Thing to redo.")
+            # popup on screen
+            self.load_one_card_to_review_on_window()
 
-    def redo_card(self):
-        # self.engine.redo()
-        # popup on screen
-        self.set_answer_revealed(False)
-
-
-    def answer_to_card(self, answer):
-        print("in: answer_to_card -> call : self.engine.answer")
-        # self.engine.answser(self.card.id, answer)
+    def on_answer_clicked(self, answer):
+        print("in: on_answer_clicked -> call : self.engine.answer_card_review")
+        self.engine.answer_card_review(self.card.id, answer)
 
         print(f"Answer : {answer}")
-        print("in: answer_to_card -> call : load_one_card_to_review_on_window")
-
+        print("in: on_answer_clicked -> call : load_one_card_to_review_on_window")
         self.load_one_card_to_review_on_window()
 
 

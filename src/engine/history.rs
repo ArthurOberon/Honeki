@@ -51,21 +51,34 @@ impl Default for History {
 
 impl History {
 	pub fn load_or_default() -> Self {
-		let json = match read_to_string("/data/history.json") {
+		let path = "data/history.json";
+		
+		let json = match read_to_string(path) {
 			Ok(content) => content,
 			Err(_) => {
-				return Self::default();
+				let default_history = Self::default();
+				if let Err(err) = default_history.save_to_json() {
+					eprintln!("Error: Can't create the file {path}: {err}.");
+				}
+
+				return default_history;
 			}	
 		};
 		
 		serde_json::from_str(&json).unwrap_or_else(|err| {
-			eprintln!("Caution : File '/data/history.json' as syntax error : ({err}). Can't use it.");
-			return Self::default();
+			eprintln!("Caution : File 'data/history.json' as syntax error : ({err}). Can't use it.");
+
+			let default_history = Self::default();
+			if let Err(err) = default_history.save_to_json() {
+				eprintln!("Error: Can't create the file {path}: {err}.");
+			}
+
+			default_history
 		})
 	}
 
 	pub fn save_to_json(&self) -> Result<(), Box<dyn std::error::Error>> {
-		let path = "/data/history.json";
+		let path = "data/history.json";
 
 		let json = serde_json::to_string_pretty(self)?;
 		secure_save_file_from_json(path, json)?;

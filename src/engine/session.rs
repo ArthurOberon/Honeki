@@ -4,6 +4,7 @@ use rand::seq::{SliceRandom};
 
 use crate::engine::card::CardType;
 use crate::engine::deck::Deck;
+use crate::engine::review::Choice;
 use crate::engine::review::UserAction;
 use crate::engine::review::review_one_card;
 use crate::engine::review::wait_enter_input;
@@ -319,6 +320,46 @@ impl Session {
 		}
 	}
 
+	pub fn answer_card_review(&mut self, deck: &mut Deck, card_id: usize, choice: Choice) {
+
+		{
+			let card = &mut deck.cards[card_id];
+			
+			let before_update_queue = card.r_type;
+
+			self.history.record_action(CardSnapshot::card_to_snapshot(card));
+	
+			// from user input, update the card's metadatas (interval, r_type, ease, due) 
+			card.update_metadata(choice);
+			
+			self.remove_card_from_queue(card_id, before_update_queue);
+			
+			if before_update_queue == CardType::Manual && deck.new_card_review_today < self.config.number_new_by_day {
+				deck.new_card_review_today += 1;
+			}
+			
+		}
+
+		// println!("Save process...");
+		if let Err(err) = deck.save_to_json() {
+			eprintln!("Error during deck save process : {err}");
+		}
+
+		// println!("Save process...");
+		if let Err(err) = self.history.save_to_json() {
+			eprintln!("Error during history save process : {err}");
+		}
+
+		let r_type = deck.cards[card_id].r_type;
+		let due = deck.cards[card_id].due.unwrap();
+
+		if matches!(r_type, CardType::Learn | CardType::Relearn) {
+			self.requeue_card(deck, card_id, r_type, due);
+		}
+
+		self.update_data();
+
+	}
 
 	pub fn launch(&mut self, deck: &mut Deck) //-> bool
 	{
