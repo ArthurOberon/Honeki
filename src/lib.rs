@@ -160,6 +160,23 @@ impl Engine {
 	pub fn redo(&mut self) -> bool {
 		self.session.redo(&mut self.deck)
 	}
+
+	pub fn get_config_json(&mut self) -> PyResult<String> {
+		self.session.config.get_config_json()
+	}
+
+	pub fn save_config(&mut self, json_str: String) -> PyResult<()> {
+		println!("new config json_str: {:#?}", json_str);
+		
+		let err = self.session.config.update_config(json_str);
+
+		if let Err(err) = self.session.config.save_to_json() {
+			eprintln!("Error during history save process: {err}");
+		}
+
+		err
+	}
+
 }
 
 

@@ -56,3 +56,18 @@
 	max-height : 30px;
 }
 
+#btn_save_setting {
+	background-color: #146fac;
+	color: white;
+	font-size: 20px;
+
+	max-width: 100px;
+	height: 30px;
+}
+
+#snackbar {
+	background-color: burlywood;
+	color: white;
+	border: 2px solid #333;
+	padding: 12px;
+}

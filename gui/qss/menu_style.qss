@@ -16,19 +16,21 @@
 #label_new {
 	font-size: 18px;
 	font-weight: bold;
-	color: #2980b9;
+	color: #146fac;
 }
 
 #label_error {
 	font-size: 18px;
 	font-weight: bold;
-	color: #e74c3c;
+	color: #cc1111;
+	/* color: #e74c3c; */
 }
 
 #label_review {
 	font-size: 18px;
 	font-weight: bold;
-	color: #27ae60;
+	color: #5ba864;
+	/* color: #27ae60; */
 }
 
 

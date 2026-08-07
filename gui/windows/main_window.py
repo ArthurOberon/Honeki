@@ -25,7 +25,7 @@ class MainWindow(QMainWindow):
         self.menu_window = MenuWindow(go_to_review_callback=self.show_review, go_to_setting_callback=self.show_setting, engine=self.engine)
         self.review_window = ReviewWindow(go_to_menu_callback=self.show_menu, engine=self.engine)
         self.no_review_window = NoReviewWindow(go_to_menu_callback=self.show_menu)
-        self.setting_window = SettingWindow(go_to_menu_callback=self.show_menu)
+        self.setting_window = SettingWindow(go_to_menu_callback=self.show_menu, engine=self.engine)
 
         # Add page into the stacked_widget
         self.stacked_widget.addWidget(self.menu_window)

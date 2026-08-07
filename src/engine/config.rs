@@ -1,7 +1,10 @@
 use core::fmt;
 use std::fs::{read_to_string};
+use pyo3::{PyResult, exceptions::PyValueError};
 use serde::{Serialize, Serializer, Deserialize, Deserializer};
 use chrono::{Duration};
+
+use crate::engine::deck::secure_save_file_from_json;
 
 mod duration_as_minutes {
 	use super::*;
@@ -50,7 +53,7 @@ impl Default for SessionConfig {
 	fn default() -> Self {
 		Self {
 			number_new_by_day: 20,
-			lat: Duration::minutes(20),
+			lat: Duration::minutes(10),
 			new_random_review: false,
 			new_random_select: false
 		}
@@ -72,5 +75,40 @@ impl SessionConfig {
 			eprintln!("Caution : File 'config/config.json' as syntax error : ({err}). Use the default configuration.");
 			return Self::default();
 		})
+	}
+
+	pub fn get_config_json(&mut self) -> PyResult<String> {
+		match serde_json::to_string(self) {
+			Ok(json_str) => Ok(json_str),
+			Err(err) => {
+				Err(PyValueError::new_err(format!("Error of json serialize: ({err})")))
+			}
+		}
+	}
+
+	pub fn update_config(&mut self, json_str: String) -> PyResult<()> {
+		let config: SessionConfig = match serde_json::from_str(&json_str) {
+			Ok(c) => c,
+			Err(err) => {
+				return Err(PyValueError::new_err(format!("Error of parsing: ({err})")))
+			}
+		};
+
+		println!("new config config: {:#?}", config);
+
+		*self = config;
+
+		println!("new config self: {:#?}", self);
+
+		Ok(())
+	}
+
+	pub fn save_to_json(&self) -> Result<(), Box<dyn std::error::Error>> {
+		let path = "config/config.json";
+
+		let json = serde_json::to_string_pretty(self)?;
+		secure_save_file_from_json(path, json)?;
+
+		Ok(())
 	}
 }

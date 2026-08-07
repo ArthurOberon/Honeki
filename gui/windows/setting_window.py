@@ -1,9 +1,13 @@
 from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget, QPushButton, QFormLayout, QSpinBox, QComboBox
-from PySide6.QtCore import Qt 
+from PySide6.QtCore import Qt, QTimer
+
+import json
 
 class SettingWindow(QWidget):
-	def __init__(self, go_to_menu_callback):
+	def __init__(self, go_to_menu_callback, engine):
 		super().__init__()
+
+		self.engine = engine
 
 		layout = QVBoxLayout()
 
@@ -83,11 +87,62 @@ class SettingWindow(QWidget):
 		layout.addSpacing(20)
 
 		btn = QPushButton("Save")
-		btn.setObjectName("btn_start")
+		btn.setObjectName("btn_save_setting")
+		btn.clicked.connect(self.on_save_setting)
 		btn.setFocus()
 
-		layout.addWidget(btn)
+		layout.addWidget(btn, alignment=Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop)
 
 		layout.addStretch()
 
 		self.setLayout(layout)
+
+		self.snackbar = QLabel("SNACKBAR")
+		self.snackbar.setObjectName("snackbar")
+		self.snackbar.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.ToolTip)
+		self.snackbar.move(0, 650)
+
+		self.set_form_to_config()
+
+
+	def show_snackbar(self, text):
+		self.snackbar.setText(text)
+		self.snackbar.show()
+		QTimer.singleShot(2000, self.snackbar.hide)
+
+
+	def set_form_to_config(self):
+		json_str = self.engine.get_config_json()
+
+		config = json.loads(json_str)
+
+		self.new_by_day_spin.setValue(config.get("numberNewByDay", 20))
+		self.lat_spin.setValue(config.get("LAT", 10))
+	
+		is_review_random = config.get("newRandomReview", False) 
+		self.new_review_random_combo.setCurrentText(str(is_review_random))
+
+		is_select_random = config.get("newRandomSelect", False)
+		self.new_select_random_combo.setCurrentText(str(is_select_random))
+
+
+	def get_json_setting_values(self):
+		values = {
+			"numberNewByDay": self.new_by_day_spin.value(),
+			"LAT": self.lat_spin.value(),
+			"newRandomReview": self.new_review_random_combo.currentText() == "True",
+			"newRandomSelect": self.new_select_random_combo.currentText() == "True",
+		}
+
+		json_str = json.dumps(values)
+
+		return json_str
+
+
+
+	def on_save_setting(self):
+		json_str = self.get_json_setting_values()
+
+		self.engine.save_config(json_str)
+
+		self.show_snackbar("Setting saved.")
