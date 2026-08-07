@@ -4,10 +4,18 @@
 	/* background-color: #24946b; */
 }
 
-#layout_form {
-	background-color: antiquewhite ;
+#title-setting {
+	font-size: 22px;
+	font-weight: bold;
 
-	border: 1px solid #e0e0e0;
+	padding: 20px 30px 20px, 30px;
+}
+
+#layout_form {
+	background-color: white ;
+	/* background-color: antiquewhite ; */
+
+	border: 2px solid #e0e0e0;
 	border-radius: 12px;
 	padding: 24px;
 
