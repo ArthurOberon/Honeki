@@ -33,7 +33,7 @@ impl Deck {
 		// let cards: Vec<Card> = serde_json::from_str(&json)?;
 		// Ok(Deck { cards, last_review_date: "".to_string(), new_card_review_today: 0 })
 
-		serde_json::from_str(json)	
+		serde_json::from_str(json)
 	}
 
 	pub fn save_to_json(&self) -> Result<(), Box<dyn std::error::Error>>

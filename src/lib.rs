@@ -26,6 +26,7 @@ pub struct CardView {
 	#[pyo3(get)] picture: String,
     #[pyo3(get)] placed_in: String,
     #[pyo3(get)] connect_to: Vec<String>,
+    #[pyo3(get)] count: usize,
 
 	// Metadata
 	#[pyo3(get)] id: usize,
@@ -39,9 +40,12 @@ impl From<Card> for CardView {
 	fn from(card: Card) -> Self {
 		CardView {
 			name: card.name,
+			
 			picture: card.picture,
 			placed_in: card.placed_in,
 			connect_to: card.connect_to,
+			count: card.count,
+
 			id: card.id,
 			// r_type: card.r_type,
 			interval: card.interval,
@@ -81,9 +85,6 @@ impl From<SessionData> for SessionDataView {
 
 #[pyclass]
 pub struct Engine {
-	#[pyo3(get)]
-	test: String,
-
 	deck: Deck,
 	session: Session,
 }
@@ -106,7 +107,6 @@ impl Engine {
 		let session = Session::new(&mut deck);
 
 		Ok(Engine {
-			test: "COUCOU".to_string(),
 			deck,
 			session
 		})
@@ -166,32 +166,19 @@ impl Engine {
 	}
 
 	pub fn save_config(&mut self, json_str: String) -> PyResult<()> {
-		println!("new config json_str: {:#?}", json_str);
-		
-		let err = self.session.config.update_config(json_str);
+		self.session.update_config(json_str, &self.deck)?;
 
 		if let Err(err) = self.session.config.save_to_json() {
 			eprintln!("Error during history save process: {err}");
 		}
 
-		err
+		Ok(())
 	}
 
-}
-
-
-
-#[pyfunction]
-fn status() -> String {
-	"Rust Engine is running.".to_string()
 }
 
 #[pymodule]
 fn anki_engine(m: &Bound<'_, PyModule>) -> PyResult<()> {
 	m.add_class::<Engine>()?;
-
-	m.add_function(wrap_pyfunction!(status, m)?)?;
-
-	// m.add_function(wrap_pyfunction!(get_data, m)?)?;
 	Ok(())
 }

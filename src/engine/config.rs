@@ -94,11 +94,7 @@ impl SessionConfig {
 			}
 		};
 
-		println!("new config config: {:#?}", config);
-
 		*self = config;
-
-		println!("new config self: {:#?}", self);
 
 		Ok(())
 	}

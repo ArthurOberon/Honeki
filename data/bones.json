@@ -1,32 +1,909 @@
 {
   "cards": [
     {
-      "name": "A",
-      "picture": "null",
-      "placedIn": "null",
+      "name": "Os frontal",
+      "picture": "data/assets/Frontal_bone.png",
+      "placedIn": "Tête > Neurocrâne",
       "connectTo": [
-        "null"
+        "Os pariétal",
+        "Os sphénoïde",
+        "Os ethmoïde",
+        "Os nasal",
+        "Os zygomatique",
+        "Os lacrymal"
       ],
+      "count": 1,
       "id": 0,
-      "type": "Relearn",
-      "interval": 0.006944444444444444,
-      "ease": 2.3,
-      "due": "2026-08-06T10:47:30.968396053"
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
     },
     {
-      "name": "B",
-      "picture": "null",
-      "placedIn": "null",
+      "name": "Os occipital",
+      "picture": "data/assets/Occipital_bone.gif",
+      "placedIn": "Tête > Neurocrâne",
       "connectTo": [
-        "null"
+        "Os pariétal",
+        "Os temporal",
+        "Os sphénoïde",
+        "Atlas (C1)"
       ],
+      "count": 1,
       "id": 1,
-      "type": "Relearn",
-      "interval": 0.0006944444444444445,
-      "ease": 2.3,
-      "due": "2026-08-06T10:38:40.575313975"
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Os pariétal",
+      "picture": "data/assets/Parietal_bone.gif",
+      "placedIn": "Tête > Neurocrâne",
+      "connectTo": [
+        "Os frontal",
+        "Os occipital",
+        "Os temporal",
+        "Os sphénoïde"
+      ],
+      "count": 2,
+      "id": 2,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Os temporal",
+      "picture": "data/assets/Temporal_bone.gif",
+      "placedIn": "Tête > Neurocrâne",
+      "connectTo": [
+        "Os occipital",
+        "Os pariétal",
+        "Os sphénoïde",
+        "Os zygomatique",
+        "Mandibule"
+      ],
+      "count": 2,
+      "id": 3,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Os sphénoïde",
+      "picture": "data/assets/Sphenoid_bone.gif",
+      "placedIn": "Tête > Neurocrâne",
+      "connectTo": [
+        "Os frontal",
+        "Os occipital",
+        "Os pariétal",
+        "Os temporal",
+        "Os ethmoïde",
+        "Os vomer",
+        "Os zygomatique",
+        "Os palatin"
+      ],
+      "count": 1,
+      "id": 4,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Os ethmoïde",
+      "picture": "data/assets/Ethmoid_bone.gif",
+      "placedIn": "Tête > Neurocrâne",
+      "connectTo": [
+        "Os frontal",
+        "Os sphénoïde",
+        "Os vomer",
+        "Os nasal",
+        "Os lacrymal",
+        "Os palatin",
+        "Cornet nasal inférieur"
+      ],
+      "count": 1,
+      "id": 5,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Mandibule",
+      "picture": "data/assets/Mandible_bone.gif",
+      "placedIn": "Tête > Viscérocrâne",
+      "connectTo": [
+        "Os temporal"
+      ],
+      "count": 1,
+      "id": 6,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Os maxillaire",
+      "picture": "data/assets/Maxilla_inferior.gif",
+      "placedIn": "Tête > Viscérocrâne",
+      "connectTo": [
+        "Os frontal",
+        "Os ethmoïde",
+        "Os nasal",
+        "Os zygomatique",
+        "Os lacrymal",
+        "Os palatin",
+        "Cornet nasal inférieur",
+        "Os vomer"
+      ],
+      "count": 2,
+      "id": 7,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Os zygomatique",
+      "picture": "data/assets/Zygomatic_bone.gif",
+      "placedIn": "Tête > Viscérocrâne",
+      "connectTo": [
+        "Os frontal",
+        "Os sphénoïde",
+        "Os temporal",
+        "Os maxillaire"
+      ],
+      "count": 2,
+      "id": 8,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Os nasal",
+      "picture": "data/assets/Nasal_bone.png",
+      "placedIn": "Tête > Viscérocrâne",
+      "connectTo": [
+        "Os frontal",
+        "Os ethmoïde",
+        "Os maxillaire"
+      ],
+      "count": 2,
+      "id": 9,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Os lacrymal",
+      "picture": "data/assets/Lacrimal_bone.gif",
+      "placedIn": "Tête > Viscérocrâne",
+      "connectTo": [
+        "Os frontal",
+        "Os ethmoïde",
+        "Os maxillaire",
+        "Cornet nasal inférieur"
+      ],
+      "count": 2,
+      "id": 10,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Os palatin",
+      "picture": "data/assets/Palatine_bone.png",
+      "placedIn": "Tête > Viscérocrâne",
+      "connectTo": [
+        "Os ethmoïde",
+        "Os sphénoïde",
+        "Os maxillaire",
+        "Cornet nasal inférieur",
+        "Os vomer"
+      ],
+      "count": 2,
+      "id": 11,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Cornet nasal inférieur",
+      "picture": "data/assets/Inferior_nasal_concha.gif",
+      "placedIn": "Tête > Viscérocrâne",
+      "connectTo": [
+        "Os ethmoïde",
+        "Os maxillaire",
+        "Os lacrymal",
+        "Os palatin"
+      ],
+      "count": 2,
+      "id": 12,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Os vomer",
+      "picture": "data/assets/Vomer_bone.gif",
+      "placedIn": "Tête > Viscérocrâne",
+      "connectTo": [
+        "Os sphénoïde",
+        "Os ethmoïde",
+        "Os maxillaire",
+        "Os palatin"
+      ],
+      "count": 1,
+      "id": 13,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Os hyoïde",
+      "picture": "data/assets/Hyoid_bone.gif",
+      "placedIn": "Cou",
+      "connectTo": [],
+      "count": 1,
+      "id": 14,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Marteau",
+      "picture": "null",
+      "placedIn": "Tête > Oreille moyenne",
+      "connectTo": [
+        "Enclume"
+      ],
+      "count": 2,
+      "id": 15,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Enclume",
+      "picture": "null",
+      "placedIn": "Tête > Oreille moyenne",
+      "connectTo": [
+        "Marteau",
+        "Étrier"
+      ],
+      "count": 2,
+      "id": 16,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Étrier",
+      "picture": "null",
+      "placedIn": "Tête > Oreille moyenne",
+      "connectTo": [
+        "Enclume"
+      ],
+      "count": 2,
+      "id": 17,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Atlas (C1)",
+      "picture": "null",
+      "placedIn": "Tronc > Rachis cervical",
+      "connectTo": [
+        "Os occipital",
+        "Axis (C2)"
+      ],
+      "count": 1,
+      "id": 18,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Axis (C2)",
+      "picture": "null",
+      "placedIn": "Tronc > Rachis cervical",
+      "connectTo": [
+        "Atlas (C1)",
+        "Vertèbres cervicales (C3-C7)"
+      ],
+      "count": 1,
+      "id": 19,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Vertèbres cervicales (C3-C7)",
+      "picture": "null",
+      "placedIn": "Tronc > Rachis cervical",
+      "connectTo": [
+        "Axis (C2)",
+        "Vertèbres thoraciques (T1-T12)"
+      ],
+      "count": 5,
+      "id": 20,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Vertèbres thoraciques (T1-T12)",
+      "picture": "null",
+      "placedIn": "Tronc > Rachis thoracique",
+      "connectTo": [
+        "Vertèbres cervicales (C3-C7)",
+        "Vertèbres lumbales (L1-L5)",
+        "Vraies côtes (1-7)",
+        "Fausses côtes (8-10)",
+        "Côtes flottantes (11-12)"
+      ],
+      "count": 12,
+      "id": 21,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Vertèbres lumbales (L1-L5)",
+      "picture": "null",
+      "placedIn": "Tronc > Rachis lombal",
+      "connectTo": [
+        "Vertèbres thoraciques (T1-T12)",
+        "Sacrum"
+      ],
+      "count": 5,
+      "id": 22,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Sacrum",
+      "picture": "null",
+      "placedIn": "Tronc > Rachis sacré",
+      "connectTo": [
+        "Vertèbres lumbales (L1-L5)",
+        "Coccyx",
+        "Os coxal"
+      ],
+      "count": 1,
+      "id": 23,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Coccyx",
+      "picture": "null",
+      "placedIn": "Tronc > Rachis coccygien",
+      "connectTo": [
+        "Sacrum"
+      ],
+      "count": 1,
+      "id": 24,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Sternum",
+      "picture": "null",
+      "placedIn": "Tronc > Cage thoracique",
+      "connectTo": [
+        "Clavicule",
+        "Vraies côtes (1-7)",
+        "Fausses côtes (8-10)"
+      ],
+      "count": 1,
+      "id": 25,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Vraies côtes (1-7)",
+      "picture": "null",
+      "placedIn": "Tronc > Cage thoracique",
+      "connectTo": [
+        "Vertèbres thoraciques (T1-T12)",
+        "Sternum"
+      ],
+      "count": 14,
+      "id": 26,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Fausses côtes (8-10)",
+      "picture": "null",
+      "placedIn": "Tronc > Cage thoracique",
+      "connectTo": [
+        "Vertèbres thoraciques (T1-T12)",
+        "Sternum"
+      ],
+      "count": 6,
+      "id": 27,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Côtes flottantes (11-12)",
+      "picture": "null",
+      "placedIn": "Tronc > Cage thoracique",
+      "connectTo": [
+        "Vertèbres thoraciques (T1-T12)"
+      ],
+      "count": 4,
+      "id": 28,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Clavicule",
+      "picture": "null",
+      "placedIn": "Membre supérieur > Ceinture scapulaire",
+      "connectTo": [
+        "Sternum",
+        "Scapula"
+      ],
+      "count": 2,
+      "id": 29,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Scapula",
+      "picture": "null",
+      "placedIn": "Membre supérieur > Ceinture scapulaire",
+      "connectTo": [
+        "Clavicule",
+        "Humérus"
+      ],
+      "count": 2,
+      "id": 30,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Humérus",
+      "picture": "null",
+      "placedIn": "Membre supérieur > Bras",
+      "connectTo": [
+        "Scapula",
+        "Radius",
+        "Ulna"
+      ],
+      "count": 2,
+      "id": 31,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Radius",
+      "picture": "null",
+      "placedIn": "Membre supérieur > Avant-bras",
+      "connectTo": [
+        "Humérus",
+        "Ulna",
+        "Scaphoïde",
+        "Lunatum"
+      ],
+      "count": 2,
+      "id": 32,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Ulna",
+      "picture": "null",
+      "placedIn": "Membre supérieur > Avant-bras",
+      "connectTo": [
+        "Humérus",
+        "Radius"
+      ],
+      "count": 2,
+      "id": 33,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Scaphoïde",
+      "picture": "null",
+      "placedIn": "Membre supérieur > Main > Carpe",
+      "connectTo": [
+        "Radius",
+        "Lunatum",
+        "Trapèze",
+        "Trapézoïde",
+        "Capitatum"
+      ],
+      "count": 2,
+      "id": 34,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Lunatum",
+      "picture": "null",
+      "placedIn": "Membre supérieur > Main > Carpe",
+      "connectTo": [
+        "Radius",
+        "Scaphoïde",
+        "Triquetrum",
+        "Capitatum",
+        "Hamatum"
+      ],
+      "count": 2,
+      "id": 35,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Triquetrum",
+      "picture": "null",
+      "placedIn": "Membre supérieur > Main > Carpe",
+      "connectTo": [
+        "Lunatum",
+        "Pisiforme",
+        "Hamatum"
+      ],
+      "count": 2,
+      "id": 36,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Pisiforme",
+      "picture": "null",
+      "placedIn": "Membre supérieur > Main > Carpe",
+      "connectTo": [
+        "Triquetrum"
+      ],
+      "count": 2,
+      "id": 37,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Trapèze",
+      "picture": "null",
+      "placedIn": "Membre supérieur > Main > Carpe",
+      "connectTo": [
+        "Scaphoïde",
+        "Trapézoïde",
+        "Métacarpiens"
+      ],
+      "count": 2,
+      "id": 38,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Trapézoïde",
+      "picture": "null",
+      "placedIn": "Membre supérieur > Main > Carpe",
+      "connectTo": [
+        "Scaphoïde",
+        "Trapèze",
+        "Capitatum",
+        "Métacarpiens"
+      ],
+      "count": 2,
+      "id": 39,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Capitatum",
+      "picture": "null",
+      "placedIn": "Membre supérieur > Main > Carpe",
+      "connectTo": [
+        "Scaphoïde",
+        "Lunatum",
+        "Trapézoïde",
+        "Hamatum",
+        "Métacarpiens"
+      ],
+      "count": 2,
+      "id": 40,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Hamatum",
+      "picture": "null",
+      "placedIn": "Membre supérieur > Main > Carpe",
+      "connectTo": [
+        "Lunatum",
+        "Triquetrum",
+        "Capitatum",
+        "Métacarpiens"
+      ],
+      "count": 2,
+      "id": 41,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Métacarpiens",
+      "picture": "null",
+      "placedIn": "Membre supérieur > Main > Métacarpe",
+      "connectTo": [
+        "Trapèze",
+        "Trapézoïde",
+        "Capitatum",
+        "Hamatum",
+        "Phalanges de la main"
+      ],
+      "count": 10,
+      "id": 42,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Phalanges de la main",
+      "picture": "null",
+      "placedIn": "Membre supérieur > Main > Doigts",
+      "connectTo": [
+        "Métacarpiens"
+      ],
+      "count": 28,
+      "id": 43,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Os coxal",
+      "picture": "null",
+      "placedIn": "Membre inférieur > Ceinture pelvienne",
+      "connectTo": [
+        "Sacrum",
+        "Fémur"
+      ],
+      "count": 2,
+      "id": 44,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Fémur",
+      "picture": "null",
+      "placedIn": "Membre inférieur > Cuisse",
+      "connectTo": [
+        "Os coxal",
+        "Tibia",
+        "Patella"
+      ],
+      "count": 2,
+      "id": 45,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Patella",
+      "picture": "null",
+      "placedIn": "Membre inférieur > Genou",
+      "connectTo": [
+        "Fémur",
+        "Tibia"
+      ],
+      "count": 2,
+      "id": 46,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Tibia",
+      "picture": "null",
+      "placedIn": "Membre inférieur > Jambe",
+      "connectTo": [
+        "Fémur",
+        "Patella",
+        "Fibula",
+        "Talus"
+      ],
+      "count": 2,
+      "id": 47,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Fibula",
+      "picture": "null",
+      "placedIn": "Membre inférieur > Jambe",
+      "connectTo": [
+        "Tibia",
+        "Talus"
+      ],
+      "count": 2,
+      "id": 48,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Talus",
+      "picture": "null",
+      "placedIn": "Membre inférieur > Pied > Tarse",
+      "connectTo": [
+        "Tibia",
+        "Fibula",
+        "Calcanéus",
+        "Os naviculaire"
+      ],
+      "count": 2,
+      "id": 49,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Calcanéus",
+      "picture": "null",
+      "placedIn": "Membre inférieur > Pied > Tarse",
+      "connectTo": [
+        "Talus",
+        "Os cuboïde"
+      ],
+      "count": 2,
+      "id": 50,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Os naviculaire",
+      "picture": "null",
+      "placedIn": "Membre inférieur > Pied > Tarse",
+      "connectTo": [
+        "Talus",
+        "Os cunéiformes"
+      ],
+      "count": 2,
+      "id": 51,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Os cuboïde",
+      "picture": "null",
+      "placedIn": "Membre inférieur > Pied > Tarse",
+      "connectTo": [
+        "Calcanéus",
+        "Os cunéiformes",
+        "Métatarsiens"
+      ],
+      "count": 2,
+      "id": 52,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Os cunéiformes",
+      "picture": "null",
+      "placedIn": "Membre inférieur > Pied > Tarse",
+      "connectTo": [
+        "Os naviculaire",
+        "Os cuboïde",
+        "Métatarsiens"
+      ],
+      "count": 6,
+      "id": 53,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Métatarsiens",
+      "picture": "null",
+      "placedIn": "Membre inférieur > Pied > Métatarse",
+      "connectTo": [
+        "Os cuboïde",
+        "Os cunéiformes",
+        "Phalanges du pied"
+      ],
+      "count": 10,
+      "id": 54,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
+    },
+    {
+      "name": "Phalanges du pied",
+      "picture": "null",
+      "placedIn": "Membre inférieur > Pied > Orteils",
+      "connectTo": [
+        "Métatarsiens"
+      ],
+      "count": 28,
+      "id": 55,
+      "type": "Manual",
+      "interval": 0.0,
+      "ease": 0.0,
+      "due": null
     }
   ],
-  "last_review_date": "2026-08-06",
+  "last_review_date": "2026-08-07",
   "new_card_review_today": 0
 }

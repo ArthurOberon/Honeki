@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget, QPushButton, QHBoxLayout, QFrame, QDialog
-from PySide6.QtCore import Qt, QTimer
-from PySide6.QtGui import QShortcut, QKeySequence
+from PySide6.QtCore import Qt, QTimer, QSize
+from PySide6.QtGui import QShortcut, QKeySequence, QPixmap, QMovie
 from functools import partial
 
 class ReviewWindow(QWidget):
@@ -68,10 +68,9 @@ class ReviewWindow(QWidget):
 
         self.top_layout = top_layout
 
-
     def init_center_layout(self):
         center_layout = QVBoxLayout()
-        center_layout.setSpacing(15)
+        center_layout.setSpacing(20)
 
         self.label_front = QLabel("FRONT")
         self.label_front.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -81,15 +80,65 @@ class ReviewWindow(QWidget):
         self.separator.setFrameShape(QFrame.Shape.HLine)
         self.separator.setObjectName("separator")
 
-        self.label_back = QLabel("BACK")
-        self.label_back.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.label_back.setObjectName("label_back")
-
         center_layout.addWidget(self.label_front)
         center_layout.addWidget(self.separator, alignment=Qt.AlignmentFlag.AlignCenter)
-        center_layout.addWidget(self.label_back, stretch=1)
+
+        self.init_back_card_layout()
+
+        center_layout.addLayout(self.back_layout, stretch=1)
 
         self.center_layout = center_layout
+
+    def create_back_card_block(self, title_text):
+        card_frame = QFrame()
+        card_frame.setProperty("class", "back_card_block")
+
+
+        layout = QVBoxLayout(card_frame)
+        layout.setSpacing(6)
+        # layout.setContentsMargins(32, 24, 32, 24)
+        layout.setContentsMargins(16, 16, 16, 16)
+        # layout.setContentsMargins(16, 12, 16, 12)
+
+        title_label = QLabel(title_text)
+        title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        title_label.setProperty("class", "back_card_block_title")
+
+        value_label = QLabel()
+        value_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        value_label.setProperty("class", "back_card_block_value")
+
+        if title_text :
+            layout.addWidget(title_label)
+        layout.addWidget(value_label, alignment=Qt.AlignmentFlag.AlignCenter)
+
+        return card_frame, value_label
+
+    def init_back_card_layout(self):
+        self.back_layout = QVBoxLayout()
+
+        self.back_layout.setSpacing(0)
+        self.back_layout.setContentsMargins(20, 10, 20, 10)
+
+        self.block_placed_in_frame, self.val_placed_in_label = self.create_back_card_block("PLACED IN")
+        self.block_connect_to_frame, self.val_connect_to_label = self.create_back_card_block("PLACED IN")
+        self.block_picture_frame, self.val_picture_label = self.create_back_card_block("")
+
+        self.val_picture_label.setMaximumHeight(300)
+        self.val_picture_label.setMaximumWidth(600)
+        # self.val_picture_label.setScaledContents(False)
+
+        self.back_layout.addWidget(self.block_placed_in_frame)
+        self.back_layout.addSpacing(10)
+        self.back_layout.addWidget(self.block_connect_to_frame)
+        self.back_layout.addSpacing(10)
+        self.back_layout.addWidget(self.block_picture_frame)
+
+
+    def set_back_layout_visibile(self, revealed):
+        self.block_placed_in_frame.setVisible(revealed)
+        self.block_connect_to_frame.setVisible(revealed)
+        self.block_picture_frame.setVisible(revealed)
 
 
     def init_bottom_layout(self):
@@ -137,7 +186,7 @@ class ReviewWindow(QWidget):
         self.label_front.setVisible(True)
 
         self.separator.setVisible(revealed)
-        self.label_back.setVisible(revealed)
+        self.set_back_layout_visibile(revealed)
         self.btn_no.setVisible(revealed)
         self.btn_yes.setVisible(revealed)
 
@@ -148,6 +197,11 @@ class ReviewWindow(QWidget):
         self.set_answer_revealed(True)
  
     def on_quit_clicked(self):
+        if hasattr(self, 'movie') and self.movie:
+            self.movie.stop()
+            self.movie = None
+        self.val_picture_label.clear()
+
         self.go_to_menu_callback()
 
     def on_undo_clicked(self):
@@ -155,21 +209,22 @@ class ReviewWindow(QWidget):
             self.show_snackbar("Nothing to undo.")
         else:
             self.show_snackbar("Undo card.")
-            self.load_one_card_to_review_on_window()
+        self.load_one_card_to_review_on_window()
 
     def on_redo_clicked(self):
         if not self.engine.redo():
             self.show_snackbar("Nothing to redo.")
         else :
             self.show_snackbar("Redo card.")
-            self.load_one_card_to_review_on_window()
+        self.load_one_card_to_review_on_window()
 
     def on_answer_clicked(self, answer):
-        print("in: on_answer_clicked -> call : self.engine.answer_card_review")
-        self.engine.answer_card_review(self.card.id, answer)
+        if hasattr(self, 'movie') and self.movie:
+            self.movie.stop()
+            self.movie = None
+        self.val_picture_label.clear()
 
-        print(f"Answer : {answer}")
-        print("in: on_answer_clicked -> call : load_one_card_to_review_on_window")
+        self.engine.answer_card_review(self.card.id, answer)
         self.load_one_card_to_review_on_window()
 
 
@@ -177,7 +232,47 @@ class ReviewWindow(QWidget):
         self.card = self.engine.get_next_card()
         
         self.label_front.setText(f"{self.card.name}")
-        self.label_back.setText(f"{self.card.picture}\n{self.card.placed_in}\n{self.card.connect_to}")
+
+
+        self.val_placed_in_label.setText(self.card.placed_in)
+        
+        if isinstance(self.card.connect_to, list):
+            self.val_connect_to_label.setText(" • ".join(self.card.connect_to))
+        else:
+            self.val_connect_to_label.setText(str(self.card.connect_to))
+
+
+        if self.card.picture and self.card.picture != "null":
+            pixmap = QPixmap(self.card.picture)
+
+            if not pixmap.isNull():
+
+                if self.card.picture.lower().endswith(".gif"):
+                    self.movie = QMovie(self.card.picture)
+
+                    self.movie.setScaledSize(QSize(300, 300))
+                    
+                    self.val_picture_label.setText("")
+                    self.val_picture_label.setMovie(self.movie)
+                    self.movie.start()
+                else:
+                    scaled_pixmap = pixmap.scaled(
+                        600, 300,
+                        Qt.AspectRatioMode.KeepAspectRatio,
+                        Qt.TransformationMode.SmoothTransformation
+                    )
+    
+                    self.val_picture_label.setText("")
+                    self.val_picture_label.setPixmap(scaled_pixmap)
+            else:
+                self.val_picture_label.setText("No Picture")
+
+            self.block_picture_frame.show()
+        else:
+
+            self.block_picture_frame.hide()
+
+
 
         self.set_answer_revealed(False)
 

@@ -87,6 +87,7 @@ pub struct Card {
 	pub picture: String,
     pub placed_in: String,
     pub connect_to: Vec<String>,
+	pub count: usize,
 
 	// Metadata
 	pub id: usize,

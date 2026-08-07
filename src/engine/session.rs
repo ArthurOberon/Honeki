@@ -1,5 +1,6 @@
 use chrono::{NaiveDateTime};
 use rand::seq::{SliceRandom};
+use pyo3::{PyResult};
 
 use crate::engine::{
 	deck::Deck,
@@ -27,7 +28,6 @@ pub struct Session {
 	pub history: History,
 }
 
-
 impl Session {
 
 	// =====================================
@@ -39,18 +39,16 @@ impl Session {
 		deck.reset_daily_stats();
 
 		let config = SessionConfig::load_or_default();
+		let history = History::load_or_default();
 
-		let mut all_new = Vec::new();
 		let mut learning = Vec::new();
 		let mut relearning = Vec::new();
 		let mut review = Vec::new();
 
 		for card in deck.cards.iter() {
-			if card.r_type == CardType::Manual {
-					all_new.push(card.id);
-			} else if card.is_due_today() {
+			if card.is_due_today() {
 				match card.r_type {
-					CardType::Manual => unreachable!(),
+					CardType::Manual => {},
 					CardType::Learn => learning.push(card.id),
 					CardType::Relearn => relearning.push(card.id),
 					CardType::Review => review.push(card.id),
@@ -58,56 +56,71 @@ impl Session {
 			}
 		}
 
-
-		// ===================================
-		// ==== Session Config & Sort
-		// ===================================
-
-		let mut rng = rand::thread_rng();
-
-		if config.new_random_select {
-			all_new.shuffle(&mut rng);
-		}
-
-		let new_for_today = config.number_new_by_day - deck.new_card_review_today;
-
-		let mut new: Vec<usize> = all_new.into_iter().take(new_for_today).collect();
-
-		// random new
-		if config.new_random_review {
-			new.shuffle(&mut rng);
-		}
-
         // sort in order of due (result : like interval but also with due as subsort) (nearest first)
         review.sort_by(|&a, &b| {
             deck.cards[a].due.cmp(&deck.cards[b].due)
         });
 
-		// ===================================
-		// ==== Session Datas
+		let mut session = Session {
+			config,
+			new: Vec::new(),
+			learning,
+			relearning,
+			review,
+			data: SessionData::default(),
+			rev_new_ratio: 0,
+			rev_new_count: 0,
+			history
+		};
 
-		let data = SessionData{ new: new.len(), learning: learning.len(), relearning: relearning.len(), review: review.len() };
+		session.apply_config_to_queues(deck);
 
-		let mut rev_new_ratio = 0;
-
-		if new.len() != 0 {
-			rev_new_ratio = review.len() / new.len();
-		}
-
-		// ===================================
-		// ==== Session History
-		// ===================================
-		
-		let history = History::load_or_default();
-
-		// ===================================
-		
-        Session {config, new, learning, relearning, review, data, rev_new_ratio, rev_new_count: 0, history}
+		session
 	}
 
-	
+
 	pub fn update_data(&mut self) {
-		self.data = SessionData{ new: self.new.len(), learning: self.learning.len(), relearning: self.relearning.len(), review: self.review.len() };
+		self.data = SessionData{
+			new: self.new.len(),
+			learning: self.learning.len(),
+			relearning: self.relearning.len(),
+			review: self.review.len()
+		};
+	}
+
+	pub fn update_config(&mut self, json_str: String, deck: &Deck) -> PyResult<()> {
+		self.config.update_config(json_str)?;
+
+		self.apply_config_to_queues(deck);
+
+		Ok(())
+	}
+
+	fn apply_config_to_queues(&mut self, deck: &Deck) {
+		let mut rng = rand::thread_rng();
+
+		let mut all_new: Vec<usize> = deck.cards.iter()
+			.filter(|c| c.r_type == CardType::Manual).map(|c| c.id).collect();
+
+		if self.config.new_random_select {
+			all_new.shuffle(&mut rng);
+		}
+
+		let new_for_today = self.config.number_new_by_day.saturating_sub(deck.new_card_review_today);
+
+		self.new = all_new.into_iter().take(new_for_today).collect();
+
+		if self.config.new_random_review {
+			self.new.shuffle(&mut rng);
+		}
+		
+		self.rev_new_ratio = if !self.new.is_empty() {
+			self.review.len() / self.new.len()
+		} else {
+			0
+		};
+		
+		self.update_data();
 	}
 
 	pub fn is_empty(&mut self) -> bool {
