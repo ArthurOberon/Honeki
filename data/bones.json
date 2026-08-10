@@ -263,7 +263,7 @@
     },
     {
       "name": "Marteau",
-      "picture": "null",
+      "picture": "data/assets/Malleus_bone.png",
       "placedIn": "Tête > Oreille moyenne",
       "connectTo": [
         "Enclume"
@@ -277,7 +277,7 @@
     },
     {
       "name": "Enclume",
-      "picture": "null",
+      "picture": "data/assets/Incus_bone.png",
       "placedIn": "Tête > Oreille moyenne",
       "connectTo": [
         "Marteau",
@@ -292,7 +292,7 @@
     },
     {
       "name": "Étrier",
-      "picture": "null",
+      "picture": "data/assets/Stapes_bone.png",
       "placedIn": "Tête > Oreille moyenne",
       "connectTo": [
         "Enclume"
@@ -306,7 +306,7 @@
     },
     {
       "name": "Atlas (C1)",
-      "picture": "null",
+      "picture": "data/assets/Atlas_(C1)_bone.gif",
       "placedIn": "Tronc > Rachis cervical",
       "connectTo": [
         "Os occipital",
@@ -321,7 +321,7 @@
     },
     {
       "name": "Axis (C2)",
-      "picture": "null",
+      "picture": "data/assets/C2_bone.png",
       "placedIn": "Tronc > Rachis cervical",
       "connectTo": [
         "Atlas (C1)",
@@ -336,7 +336,7 @@
     },
     {
       "name": "Vertèbres cervicales (C3-C7)",
-      "picture": "null",
+      "picture": "data/assets/Cervical_vertebrae.gif",
       "placedIn": "Tronc > Rachis cervical",
       "connectTo": [
         "Axis (C2)",
@@ -351,7 +351,7 @@
     },
     {
       "name": "Vertèbres thoraciques (T1-T12)",
-      "picture": "null",
+      "picture": "data/assets/Thoracic_vertebrae.gif",
       "placedIn": "Tronc > Rachis thoracique",
       "connectTo": [
         "Vertèbres cervicales (C3-C7)",
@@ -369,7 +369,7 @@
     },
     {
       "name": "Vertèbres lumbales (L1-L5)",
-      "picture": "null",
+      "picture": "data/assets/Lumbar_vertebrae.gif",
       "placedIn": "Tronc > Rachis lombal",
       "connectTo": [
         "Vertèbres thoraciques (T1-T12)",
@@ -384,7 +384,7 @@
     },
     {
       "name": "Sacrum",
-      "picture": "null",
+      "picture": "data/assets/Sacrum_bone.gif",
       "placedIn": "Tronc > Rachis sacré",
       "connectTo": [
         "Vertèbres lumbales (L1-L5)",
@@ -400,7 +400,7 @@
     },
     {
       "name": "Coccyx",
-      "picture": "null",
+      "picture": "data/assets/Coccyx_bone.gif",
       "placedIn": "Tronc > Rachis coccygien",
       "connectTo": [
         "Sacrum"
@@ -414,7 +414,7 @@
     },
     {
       "name": "Sternum",
-      "picture": "null",
+      "picture": "data/assets/Sternum_bone.gif",
       "placedIn": "Tronc > Cage thoracique",
       "connectTo": [
         "Clavicule",
@@ -430,7 +430,7 @@
     },
     {
       "name": "Vraies côtes (1-7)",
-      "picture": "null",
+      "picture": "data/assets/True_ribs.gif",
       "placedIn": "Tronc > Cage thoracique",
       "connectTo": [
         "Vertèbres thoraciques (T1-T12)",
@@ -445,7 +445,7 @@
     },
     {
       "name": "Fausses côtes (8-10)",
-      "picture": "null",
+      "picture": "data/assets/False_ribs.gif",
       "placedIn": "Tronc > Cage thoracique",
       "connectTo": [
         "Vertèbres thoraciques (T1-T12)",
@@ -460,7 +460,7 @@
     },
     {
       "name": "Côtes flottantes (11-12)",
-      "picture": "null",
+      "picture": "data/assets/Floating_ribs.gif",
       "placedIn": "Tronc > Cage thoracique",
       "connectTo": [
         "Vertèbres thoraciques (T1-T12)"
@@ -474,7 +474,7 @@
     },
     {
       "name": "Clavicule",
-      "picture": "null",
+      "picture": "data/assets/Clavicle_bone.gif",
       "placedIn": "Membre supérieur > Ceinture scapulaire",
       "connectTo": [
         "Sternum",
@@ -489,7 +489,7 @@
     },
     {
       "name": "Scapula",
-      "picture": "null",
+      "picture": "data/assets/Scapula_bone.png",
       "placedIn": "Membre supérieur > Ceinture scapulaire",
       "connectTo": [
         "Clavicule",
@@ -504,7 +504,7 @@
     },
     {
       "name": "Humérus",
-      "picture": "null",
+      "picture": "data/assets/Humerus_bone.gif",
       "placedIn": "Membre supérieur > Bras",
       "connectTo": [
         "Scapula",
@@ -520,7 +520,7 @@
     },
     {
       "name": "Radius",
-      "picture": "null",
+      "picture": "data/assets/Radius_bone.gif",
       "placedIn": "Membre supérieur > Avant-bras",
       "connectTo": [
         "Humérus",
@@ -537,7 +537,7 @@
     },
     {
       "name": "Ulna",
-      "picture": "null",
+      "picture": "data/assets/Ulna_bone.gif",
       "placedIn": "Membre supérieur > Avant-bras",
       "connectTo": [
         "Humérus",
@@ -552,7 +552,7 @@
     },
     {
       "name": "Scaphoïde",
-      "picture": "null",
+      "picture": "data/assets/Scaphoid_bone.gif",
       "placedIn": "Membre supérieur > Main > Carpe",
       "connectTo": [
         "Radius",
@@ -570,7 +570,7 @@
     },
     {
       "name": "Lunatum",
-      "picture": "null",
+      "picture": "data/assets/Lunate_bone.gif",
       "placedIn": "Membre supérieur > Main > Carpe",
       "connectTo": [
         "Radius",
@@ -588,7 +588,7 @@
     },
     {
       "name": "Triquetrum",
-      "picture": "null",
+      "picture": "data/assets/Triangular_bone.gif",
       "placedIn": "Membre supérieur > Main > Carpe",
       "connectTo": [
         "Lunatum",
@@ -604,7 +604,7 @@
     },
     {
       "name": "Pisiforme",
-      "picture": "null",
+      "picture": "data/assets/Pisiform_bone.gif",
       "placedIn": "Membre supérieur > Main > Carpe",
       "connectTo": [
         "Triquetrum"
@@ -618,7 +618,7 @@
     },
     {
       "name": "Trapèze",
-      "picture": "null",
+      "picture": "data/assets/Trapezium_bone.gif",
       "placedIn": "Membre supérieur > Main > Carpe",
       "connectTo": [
         "Scaphoïde",
@@ -634,7 +634,7 @@
     },
     {
       "name": "Trapézoïde",
-      "picture": "null",
+      "picture": "data/assets/Trapezoid_bone.gif",
       "placedIn": "Membre supérieur > Main > Carpe",
       "connectTo": [
         "Scaphoïde",
@@ -651,7 +651,7 @@
     },
     {
       "name": "Capitatum",
-      "picture": "null",
+      "picture": "data/assets/Capitate_bone.gif",
       "placedIn": "Membre supérieur > Main > Carpe",
       "connectTo": [
         "Scaphoïde",
@@ -669,7 +669,7 @@
     },
     {
       "name": "Hamatum",
-      "picture": "null",
+      "picture": "data/assets/Hamate_bone.gif",
       "placedIn": "Membre supérieur > Main > Carpe",
       "connectTo": [
         "Lunatum",
@@ -686,7 +686,7 @@
     },
     {
       "name": "Métacarpiens",
-      "picture": "null",
+      "picture": "data/assets/Metacarpal_bones.gif",
       "placedIn": "Membre supérieur > Main > Métacarpe",
       "connectTo": [
         "Trapèze",
@@ -704,7 +704,7 @@
     },
     {
       "name": "Phalanges de la main",
-      "picture": "null",
+      "picture": "data/assets/Phalanges_of_the_hand.gif",
       "placedIn": "Membre supérieur > Main > Doigts",
       "connectTo": [
         "Métacarpiens"
@@ -718,7 +718,7 @@
     },
     {
       "name": "Os coxal",
-      "picture": "null",
+      "picture": "data/assets/Hip_bone.gif",
       "placedIn": "Membre inférieur > Ceinture pelvienne",
       "connectTo": [
         "Sacrum",
@@ -733,7 +733,7 @@
     },
     {
       "name": "Fémur",
-      "picture": "null",
+      "picture": "data/assets/Femur_bone.gif",
       "placedIn": "Membre inférieur > Cuisse",
       "connectTo": [
         "Os coxal",
@@ -749,7 +749,7 @@
     },
     {
       "name": "Patella",
-      "picture": "null",
+      "picture": "data/assets/Patella_bone.png  ",
       "placedIn": "Membre inférieur > Genou",
       "connectTo": [
         "Fémur",
@@ -764,7 +764,7 @@
     },
     {
       "name": "Tibia",
-      "picture": "null",
+      "picture": "data/assets/Tibia_bone.gif",
       "placedIn": "Membre inférieur > Jambe",
       "connectTo": [
         "Fémur",
@@ -781,7 +781,7 @@
     },
     {
       "name": "Fibula",
-      "picture": "null",
+      "picture": "data/assets/Fibula_bone.gif",
       "placedIn": "Membre inférieur > Jambe",
       "connectTo": [
         "Tibia",
@@ -796,7 +796,7 @@
     },
     {
       "name": "Talus",
-      "picture": "null",
+      "picture": "data/assets/Talus_left_bone.gif",
       "placedIn": "Membre inférieur > Pied > Tarse",
       "connectTo": [
         "Tibia",
@@ -813,7 +813,7 @@
     },
     {
       "name": "Calcanéus",
-      "picture": "null",
+      "picture": "data/assets/Calcaneus_left_bone.gif",
       "placedIn": "Membre inférieur > Pied > Tarse",
       "connectTo": [
         "Talus",
@@ -828,7 +828,7 @@
     },
     {
       "name": "Os naviculaire",
-      "picture": "null",
+      "picture": "data/assets/Navicular_left_bone.gif",
       "placedIn": "Membre inférieur > Pied > Tarse",
       "connectTo": [
         "Talus",
@@ -843,7 +843,7 @@
     },
     {
       "name": "Os cuboïde",
-      "picture": "null",
+      "picture": "data/assets/Cuboid_left_bone.gif",
       "placedIn": "Membre inférieur > Pied > Tarse",
       "connectTo": [
         "Calcanéus",
@@ -859,7 +859,7 @@
     },
     {
       "name": "Os cunéiformes",
-      "picture": "null",
+      "picture": "data/assets/Cuneiform_left_bone.gif",
       "placedIn": "Membre inférieur > Pied > Tarse",
       "connectTo": [
         "Os naviculaire",
@@ -875,7 +875,7 @@
     },
     {
       "name": "Métatarsiens",
-      "picture": "null",
+      "picture": "data/assets/Metatarsus_left_bones.gif",
       "placedIn": "Membre inférieur > Pied > Métatarse",
       "connectTo": [
         "Os cuboïde",
@@ -891,7 +891,7 @@
     },
     {
       "name": "Phalanges du pied",
-      "picture": "null",
+      "picture": "data/assets/Phalanges_of_left_foot.gif",
       "placedIn": "Membre inférieur > Pied > Orteils",
       "connectTo": [
         "Métatarsiens"
@@ -904,6 +904,6 @@
       "due": null
     }
   ],
-  "last_review_date": "2026-08-07",
+  "last_review_date": null,
   "new_card_review_today": 0
 }
