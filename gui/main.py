@@ -9,42 +9,42 @@ import glob
 # --------------------------------------------------------
 # For in case watcher not working because working on Windows
 
-# def get_qss_files(qss_dir):
-#     return glob.glob(os.path.join(qss_dir, "*.qss"))
+def get_qss_files(qss_dir):
+    return glob.glob(os.path.join(qss_dir, "*.qss"))
 
-# def load_combined_stylesheets(app, qss_dir):
-#     combined_css = ""
+def load_combined_stylesheets(app, qss_dir):
+    combined_css = ""
 
-#     for file_path in get_qss_files(qss_dir):
-#         try:
-#             with open(file_path, "r", encoding="utf-8") as f:
-#                 combined_css += f.read() + '\n'
-#         except OSError:
-#             pass
+    for file_path in get_qss_files(qss_dir):
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                combined_css += f.read() + '\n'
+        except OSError:
+            pass
 
-#     app.setStyleSheet(combined_css)
+    app.setStyleSheet(combined_css)
 
-# def getmtimes(qss_dir):
-#     return {f: os.path.getmtime(f) for f in get_qss_files(qss_dir) if os.path.exists(f)}
+def getmtimes(qss_dir):
+    return {f: os.path.getmtime(f) for f in get_qss_files(qss_dir) if os.path.exists(f)}
 
-# def setup_qss_watcher(app):
+def setup_qss_watcher(app):
 
-#     qss_dir = os.path.abspath("gui/qss/")
-#     load_combined_stylesheets(app, qss_dir)
-#     last_mtime = [getmtimes(qss_dir)]
+    qss_dir = os.path.abspath("gui/qss/")
+    load_combined_stylesheets(app, qss_dir)
+    last_mtime = [getmtimes(qss_dir)]
 
-#     def check_qss_update():
-#         try:
-#             current_mtime = getmtimes(qss_dir)
-#             if current_mtime != last_mtime[0]:
-#                 last_mtime[0] = current_mtime
-#                 load_combined_stylesheets(app, qss_dir)
-#         except OSError:
-#             pass
+    def check_qss_update():
+        try:
+            current_mtime = getmtimes(qss_dir)
+            if current_mtime != last_mtime[0]:
+                last_mtime[0] = current_mtime
+                load_combined_stylesheets(app, qss_dir)
+        except OSError:
+            pass
 
-#     app.css_timer = QTimer()
-#     app.css_timer.timeout.connect(check_qss_update)
-#     app.css_timer.start(500)
+    app.css_timer = QTimer()
+    app.css_timer.timeout.connect(check_qss_update)
+    app.css_timer.start(500)
 
 # --------------------------------------------------------------------------------------
 
@@ -77,9 +77,9 @@ def main():
 
     app = QApplication(sys.argv)
 
-    # setup_qss_watcher(app)
+    setup_qss_watcher(app)
 
-    app.qss_manager = QSSManager(app)
+    # app.qss_manager = QSSManager(app)
 
     window = MainWindow()
     window.show()

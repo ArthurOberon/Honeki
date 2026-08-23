@@ -36,6 +36,8 @@ pub struct SessionConfig {
 
 	pub new_random_review : bool, // Does the new cards are shown in a random order
 	pub new_random_select : bool, // Does the new cards are select in a random order
+
+	pub review_mode: String,
 }
 
 impl fmt::Debug for SessionConfig {
@@ -45,6 +47,7 @@ impl fmt::Debug for SessionConfig {
 			.field("LAT", &format_args!("{} min", &self.lat.num_minutes()))
 			.field("new_random_review", &self.new_random_review)
 			.field("new_random_select", &self.new_random_select)
+			.field("review_mode", &self.review_mode)
 			.finish()
 	}
 }
@@ -55,7 +58,8 @@ impl Default for SessionConfig {
 			number_new_by_day: 20,
 			lat: Duration::minutes(10),
 			new_random_review: false,
-			new_random_select: false
+			new_random_select: false,
+			review_mode: "name".to_string()
 		}
 	}
 }

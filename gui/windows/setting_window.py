@@ -64,7 +64,7 @@ class SettingWindow(QWidget):
 		# self.new_by_day_spin.setKeyboardTracking(False)
 		self.new_by_day_spin.setAccelerated(True)
 
-		layout_form.addRow("Number of new cards by day", self.lat_spin)
+		layout_form.addRow("Learn Ahead Time (minutes)", self.lat_spin)
 
 		self.new_review_random_combo = QComboBox()
 		self.new_review_random_combo.setObjectName("combo_new_review_random")
@@ -72,13 +72,20 @@ class SettingWindow(QWidget):
 		self.new_review_random_combo.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
 
 		layout_form.addRow("Select new card to review randomly", self.new_review_random_combo)
-		
+
 		self.new_select_random_combo = QComboBox()
 		self.new_select_random_combo.setObjectName("combo_new_select_random")
 		self.new_select_random_combo.addItems(["True", "False"])
 		self.new_select_random_combo.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
 
 		layout_form.addRow("Select new card to review randomly", self.new_select_random_combo)
+
+		self.mode_review_combo = QComboBox()
+		self.mode_review_combo.setObjectName("combo_review_mode")
+		self.mode_review_combo.addItems(["Name", "Picture"])
+		self.mode_review_combo.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+
+		layout_form.addRow("Select mode of review (which element in the front of the card)", self.mode_review_combo)
 
 		layout_form.setVerticalSpacing(40)
 		layout_form.setHorizontalSpacing(40)
@@ -125,6 +132,9 @@ class SettingWindow(QWidget):
 		is_select_random = config.get("newRandomSelect", False)
 		self.new_select_random_combo.setCurrentText(str(is_select_random))
 
+		mode_review = str(config.get("reviewMode", "Name")).capitalize()
+		self.mode_review_combo.setCurrentText(mode_review)
+
 
 	def get_json_setting_values(self):
 		values = {
@@ -132,11 +142,10 @@ class SettingWindow(QWidget):
 			"LAT": self.lat_spin.value(),
 			"newRandomReview": self.new_review_random_combo.currentText() == "True",
 			"newRandomSelect": self.new_select_random_combo.currentText() == "True",
+			"reviewMode" : self.mode_review_combo.currentText().lower(),
 		}
 
-		json_str = json.dumps(values)
-
-		return json_str
+		return json.dumps(values)
 
 
 

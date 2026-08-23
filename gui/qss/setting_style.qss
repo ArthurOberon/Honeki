@@ -12,15 +12,15 @@
 }
 
 #layout_form {
-	background-color: white ;
+	background-color: white;
 	/* background-color: antiquewhite ; */
 
 	border: 2px solid #e0e0e0;
 	border-radius: 12px;
 	padding: 24px;
 
-	min-width: 550px;
-	min-height: 250px;
+	min-width: 800px;
+	min-height: 350px;
 }
 
 #layout_form QLabel {
@@ -55,6 +55,12 @@
 	max-width : 100px;
 	max-height : 30px;
 }
+
+#combo_review_mode {
+	max-width : 100px;
+	max-height : 30px;
+}
+
 
 #btn_save_setting {
 	background-color: #146fac;

@@ -2,5 +2,6 @@
   "numberNewByDay": 20,
   "LAT": 10,
   "newRandomReview": false,
-  "newRandomSelect": false
+  "newRandomSelect": false,
+  "reviewMode": "picture"
 }

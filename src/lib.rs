@@ -108,7 +108,7 @@ impl Engine {
 
 		Ok(Engine {
 			deck,
-			session
+			session,
 		})
 	}
 
@@ -163,6 +163,10 @@ impl Engine {
 
 	pub fn get_config_json(&mut self) -> PyResult<String> {
 		self.session.config.get_config_json()
+	}
+
+	pub fn get_config_review_mode(&mut self) -> String {
+		self.session.config.review_mode.clone()
 	}
 
 	pub fn save_config(&mut self, json_str: String) -> PyResult<()> {

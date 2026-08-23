@@ -3,8 +3,7 @@ from PySide6.QtCore import Qt, QTimer, QSize
 from PySide6.QtGui import QShortcut, QKeySequence, QPixmap, QMovie
 from functools import partial
 
-class ReviewWindow(QWidget):
-	
+class BaseReviewWindow(QWidget):
     def __init__(self, go_to_menu_callback, engine):
         super().__init__()
 
@@ -20,6 +19,7 @@ class ReviewWindow(QWidget):
 
         layout.addSpacing(25)
 
+        self.init_center_widgets()
         self.init_center_layout()
         layout.addLayout(self.center_layout)
 
@@ -37,7 +37,6 @@ class ReviewWindow(QWidget):
         self.snackbar.move(0, 650)
 
         self.set_answer_revealed(False)
-
 
     def init_top_layout(self):
         top_layout = QHBoxLayout()
@@ -68,28 +67,8 @@ class ReviewWindow(QWidget):
 
         self.top_layout = top_layout
 
-    def init_center_layout(self):
-        center_layout = QVBoxLayout()
-        center_layout.setSpacing(20)
 
-        self.label_front = QLabel("FRONT")
-        self.label_front.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.label_front.setObjectName("label_front")
-
-        self.separator = QFrame()
-        self.separator.setFrameShape(QFrame.Shape.HLine)
-        self.separator.setObjectName("separator")
-
-        center_layout.addWidget(self.label_front)
-        center_layout.addWidget(self.separator, alignment=Qt.AlignmentFlag.AlignCenter)
-
-        self.init_back_card_layout()
-
-        center_layout.addLayout(self.back_layout, stretch=1)
-
-        self.center_layout = center_layout
-
-    def create_back_card_block(self, title_text):
+    def create_back_card_block(self, title_text, value_label):
         card_frame = QFrame()
         card_frame.setProperty("class", "back_card_block")
 
@@ -104,7 +83,6 @@ class ReviewWindow(QWidget):
         title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title_label.setProperty("class", "back_card_block_title")
 
-        value_label = QLabel()
         value_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         value_label.setProperty("class", "back_card_block_value")
 
@@ -112,34 +90,39 @@ class ReviewWindow(QWidget):
             layout.addWidget(title_label)
         layout.addWidget(value_label, alignment=Qt.AlignmentFlag.AlignCenter)
 
-        return card_frame, value_label
+        return card_frame
 
-    def init_back_card_layout(self):
-        self.back_layout = QVBoxLayout()
 
-        self.back_layout.setSpacing(0)
-        self.back_layout.setContentsMargins(20, 10, 20, 10)
+    def init_center_widgets(self):
 
-        self.block_placed_in_frame, self.val_placed_in_label = self.create_back_card_block("PLACED IN")
-        self.block_connect_to_frame, self.val_connect_to_label = self.create_back_card_block("PLACED IN")
-        self.block_picture_frame, self.val_picture_label = self.create_back_card_block("")
+        self.separator = QFrame()
+        self.separator.setFrameShape(QFrame.Shape.HLine)
+        self.separator.setObjectName("separator")
 
+        self.label_name = QLabel("FRONT")
+        self.label_name.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_name.setObjectName("label_name")
+
+        self.val_picture_label = QLabel()
+        self.val_picture_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.val_picture_label.setMaximumHeight(300)
         self.val_picture_label.setMaximumWidth(600)
         # self.val_picture_label.setScaledContents(False)
 
-        self.back_layout.addWidget(self.block_placed_in_frame)
-        self.back_layout.addSpacing(10)
-        self.back_layout.addWidget(self.block_connect_to_frame)
-        self.back_layout.addSpacing(10)
-        self.back_layout.addWidget(self.block_picture_frame)
+        self.val_placed_in_label = QLabel()
+        self.val_connect_to_label = QLabel()
 
+        self.block_name_frame = self.create_back_card_block("", self.label_name)
+        # self.block_picture_frame = self.create_back_card_block("", self.val_picture_label)
+        self.block_placed_in_frame = self.create_back_card_block("PLACED IN", self.val_placed_in_label)
+        self.block_connect_to_frame = self.create_back_card_block("CONNECTED TO", self.val_connect_to_label)
 
-    def set_back_layout_visibile(self, revealed):
-        self.block_placed_in_frame.setVisible(revealed)
-        self.block_connect_to_frame.setVisible(revealed)
-        self.block_picture_frame.setVisible(revealed)
+        self.back_container = QWidget()
+        self.back_layout = QVBoxLayout(self.back_container)
 
+    def init_center_layout(self):
+        """Child function"""
+        raise NotImplementedError
 
     def init_bottom_layout(self):
         bottom_layout = QHBoxLayout()
@@ -176,6 +159,7 @@ class ReviewWindow(QWidget):
 
 	# ====================================================================================
 
+
     def show_snackbar(self, text):
         self.snackbar.setText(text)
         self.snackbar.show()
@@ -183,14 +167,14 @@ class ReviewWindow(QWidget):
 
 
     def set_answer_revealed(self, revealed: bool):
-        self.label_front.setVisible(True)
+        self.label_name.setVisible(True)
 
         self.separator.setVisible(revealed)
-        self.set_back_layout_visibile(revealed)
         self.btn_no.setVisible(revealed)
         self.btn_yes.setVisible(revealed)
-
         self.btn_show_answer.setVisible(not revealed)
+
+        self.back_container.setVisible(revealed)
 
 
     def _on_show_answer_clicked(self):
@@ -228,11 +212,14 @@ class ReviewWindow(QWidget):
         self.load_one_card_to_review_on_window()
 
 
+    def set_picture_visibility(self, is_visible: bool):
+        """child function"""
+        raise NotImplementedError
+
     def load_one_card_to_review_on_window(self):
         self.card = self.engine.get_next_card()
         
-        self.label_front.setText(f"{self.card.name}")
-
+        self.label_name.setText(f"{self.card.name}")
 
         self.val_placed_in_label.setText(self.card.placed_in)
         
@@ -267,12 +254,12 @@ class ReviewWindow(QWidget):
             else:
                 self.val_picture_label.setText("No Picture")
 
-            self.block_picture_frame.show()
+            # self.block_picture_frame.show()
+            self.set_picture_visibility(True)
         else:
 
-            self.block_picture_frame.hide()
-
-
+            self.set_picture_visibility(False)
+            # self.block_picture_frame.hide()
 
         self.set_answer_revealed(False)
 

@@ -904,6 +904,6 @@
       "due": null
     }
   ],
-  "last_review_date": null,
+  "last_review_date": "",
   "new_card_review_today": 0
 }
