@@ -34,8 +34,8 @@ pub struct SessionConfig {
     #[serde(rename = "LAT", with = "duration_as_minutes")]
 	pub lat : Duration, // Learn Ahead Time
 
-	pub new_random_review : bool, // Does the new cards are shown in a random order
-	pub new_random_select : bool, // Does the new cards are select in a random order
+	pub new_random_select : bool, // Does the new cards are shown in a random order
+	pub new_random_order : bool, // Does the new cards are select in a random order
 
 	pub review_mode: String,
 }
@@ -45,8 +45,8 @@ impl fmt::Debug for SessionConfig {
 		f.debug_struct("SessionConfig")
 			.field("number_new_by_day", &self.number_new_by_day)
 			.field("LAT", &format_args!("{} min", &self.lat.num_minutes()))
-			.field("new_random_review", &self.new_random_review)
 			.field("new_random_select", &self.new_random_select)
+			.field("new_random_order", &self.new_random_order)
 			.field("review_mode", &self.review_mode)
 			.finish()
 	}
@@ -57,8 +57,8 @@ impl Default for SessionConfig {
 		Self {
 			number_new_by_day: 20,
 			lat: Duration::minutes(10),
-			new_random_review: false,
 			new_random_select: false,
+			new_random_order: false,
 			review_mode: "name".to_string()
 		}
 	}

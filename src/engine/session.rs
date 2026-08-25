@@ -102,7 +102,7 @@ impl Session {
 		let mut all_new: Vec<usize> = deck.cards.iter()
 			.filter(|c| c.r_type == CardType::Manual).map(|c| c.id).collect();
 
-		if self.config.new_random_select {
+		if self.config.new_random_order {
 			all_new.shuffle(&mut rng);
 		}
 
@@ -110,7 +110,7 @@ impl Session {
 
 		self.new = all_new.into_iter().take(new_for_today).collect();
 
-		if self.config.new_random_review {
+		if self.config.new_random_select {
 			self.new.shuffle(&mut rng);
 		}
 		

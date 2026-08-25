@@ -1,7 +1,7 @@
 {
   "numberNewByDay": 20,
   "LAT": 10,
-  "newRandomReview": false,
   "newRandomSelect": false,
+  "newRandomOrder": false,
   "reviewMode": "picture"
 }

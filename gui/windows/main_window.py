@@ -12,7 +12,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Anki-Like GUI")
+        self.setWindowTitle("honeki")
         self.resize(1200, 800)
         # self.resize(800, 600)
 
